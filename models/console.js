@@ -4,9 +4,9 @@ const { Schema } = mongoose;
 
 const ConsoleSchema = new Schema({
   name: { type: String, required: true },
-  releaseDate: Date,
   creator: { type: String, required: true },
   description: { type: String, required: true },
+  releaseDate: Date,
 });
 
 ConsoleSchema.virtual("url").get(function () {

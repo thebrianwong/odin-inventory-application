@@ -4,9 +4,9 @@ const { Schema } = mongoose;
 
 const DeveloperSchema = new Schema({
   name: { type: String, required: true },
+  description: { type: String, required: true },
   founded: Number,
   headquarters: { type: Map, of: String },
-  description: { type: String, required: true },
 });
 
 DeveloperSchema.virtual("url").get(function () {
