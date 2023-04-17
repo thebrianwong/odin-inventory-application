@@ -59,7 +59,7 @@ async function developerCreate(name, founded, headquarters, description) {
   console.log(`Added developer: ${name} `);
 }
 
-async function consoleCreate(name, releaseDate, creator, description, genre) {
+async function consoleCreate(name, releaseDate, creator, description) {
   const consoleDetails = {
     name,
     creator,
