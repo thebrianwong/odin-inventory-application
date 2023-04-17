@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const DeveloperSchema = new Schema({
   name: { type: String, required: true },
-  founded: Date,
+  founded: Number,
   headquarters: String,
   description: { type: String, required: true },
 });
