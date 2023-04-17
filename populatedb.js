@@ -75,18 +75,37 @@ async function consoleCreate(name, releaseDate, creator, description) {
   console.log(`Added console: ${name}`);
 }
 
-async function bookInstanceCreate(book, imprint, due_back, status) {
-  bookinstancedetail = {
-    book,
-    imprint,
+async function videoGameCreate(
+  name,
+  description,
+  price,
+  copies,
+  releaseDate,
+  developer,
+  console,
+  genre
+) {
+  const videoGameDetails = {
+    name,
+    description,
+    releaseDate,
+    developer,
+    console,
   };
-  if (due_back != false) bookinstancedetail.due_back = due_back;
-  if (status != false) bookinstancedetail.status = status;
+  if (price !== undefined) {
+    videoGameDetails.price = price;
+  }
+  if (copies !== undefined) {
+    videoGameDetails.copies = copies;
+  }
+  if (genre !== undefined) {
+    videoGameDetails.genre = genre;
+  }
 
-  const bookinstance = new VideoGame(bookinstancedetail);
-  await bookinstance.save();
-  videoGames.push(bookinstance);
-  console.log(`Added bookinstance: ${imprint}`);
+  const videoGame = new VideoGame(videoGameDetails);
+  await videoGame.save();
+  videoGames.push(videoGame);
+  console.log(`Added video game: ${name}`);
 }
 
 async function createGenres() {
@@ -103,6 +122,14 @@ async function createGenres() {
     genreCreate(
       "Puzzle",
       "Puzzle video games make up a broad genre of video games that emphasize puzzle solving. The types of puzzles can test problem-solving skills, including logic, pattern recognition, sequence solving, spatial recognition, and word completion."
+    ),
+    genreCreate(
+      "Adventure",
+      "An adventure game is a video game genre in which the player assumes the role of a protagonist in an interactive story, driven by exploration and/or puzzle-solving.[1] The genre's focus on story allows it to draw heavily from other narrative-based media, such as literature and film, encompassing a wide variety of genres. Most adventure games (text and graphic) are designed for a single player, since the emphasis on story and character makes multiplayer design difficult.[2] Colossal Cave Adventure is identified[3] as the first such adventure game, first released in 1976, while other notable adventure game series include Zork, King's Quest, Monkey Island, Syberia, and Myst."
+    ),
+    genreCreate(
+      "Visual Novel",
+      "A visual novel (Japanese: ビジュアルノベル, Hepburn: bijuaru noberu), often abbreviated as VN, is a form of digital semi-interactive fiction. Visual novels are often associated with and used in the medium of video games, but are not always labeled as such themselves.[1][2] They combine a textual narrative with static or animated illustrations and a varying degree of interactivity. The format is more rarely referred to as novel game, a retranscription of the wasei-eigo term noberu gēmu (ノベルゲーム), which is more often used in Japanese.[3]"
     ),
   ]);
 }
@@ -240,53 +267,112 @@ async function createConsoles() {
 }
 
 async function createVideoGames() {
-  console.log("Adding authors");
+  console.log("Adding video games");
   await Promise.all([
-    bookInstanceCreate(
-      consoles[0],
-      "London Gollancz, 2014.",
-      false,
-      "Available"
+    videoGameCreate(
+      "God of War",
+      "God of War[b] is an action-adventure game developed by Santa Monica Studio and published by Sony Interactive Entertainment. It was released for the PlayStation 4 in April 2018, with a Windows port in January 2022. The game is the eighth installment in the God of War series, the eighth chronologically, and the sequel to 2010's God of War III. Unlike previous games, which were loosely based on Greek mythology, this installment is loosely inspired by Norse mythology, with the majority of it set in ancient Scandinavia in the realm of Midgard. For the first time in the series, there are two protagonists: Kratos, the former Greek God of War who remains the only playable character, and his young son, Atreus. Following the death of Kratos' second wife, Faye (Atreus' mother), the two embark on a journey to fulfill her request that her ashes be spread at the highest peak of the nine realms. Kratos keeps his troubled past a secret from Atreus, who is unaware of his divine nature. Along their journey, they come into conflict with monsters and gods of the Norse world.",
+      59.99,
+      6000,
+      new Date(2018, 4, 20),
+      developers[0],
+      [consoles[0], consoles[1]],
+      [genres[0], genres[3]]
     ),
-    bookInstanceCreate(consoles[1], " Gollancz, 2011.", false, "Loaned"),
-    bookInstanceCreate(consoles[2], " Gollancz, 2015.", false, false),
-    bookInstanceCreate(
-      consoles[3],
-      "New York Tom Doherty Associates, 2016.",
-      false,
-      "Available"
+    videoGameCreate(
+      "The Last of Us",
+      "The Last of Us is a 2013 action-adventure game developed by Naughty Dog and published by Sony Computer Entertainment. Players control Joel, a smuggler tasked with escorting a teenage girl, Ellie, across a post-apocalyptic United States. The Last of Us is played from a third-person perspective. Players use firearms and improvised weapons and can use stealth to defend against hostile humans and cannibalistic creatures infected by a mutated fungus. In the online multiplayer mode, up to eight players engage in cooperative and competitive gameplay.",
+      59.99,
+      1023,
+      new Date(2013, 6, 14),
+      developers[1],
+      [consoles[2], consoles[0]],
+      [genres[0], genres[3]]
     ),
-    bookInstanceCreate(
-      consoles[3],
-      "New York Tom Doherty Associates, 2016.",
-      false,
-      "Available"
+    videoGameCreate(
+      "Uncharted: Drake's Fortune",
+      "Uncharted: Drake's Fortune is a 2007 action-adventure game developed by Naughty Dog and published by Sony Computer Entertainment. It is the first game in the Uncharted series and was released in November 2007 for PlayStation 3. The game follows Nathan Drake, the supposed descendant of explorer Sir Francis Drake, as he searches for the lost treasure of El Dorado with journalist Elena Fisher and mentor Victor Sullivan.",
+      39.99,
+      843,
+      new Date(2007, 11, 19),
+      developers[1],
+      [consoles[2]],
+      [genres[0], genres[3]]
     ),
-    bookInstanceCreate(
-      consoles[3],
-      "New York Tom Doherty Associates, 2016.",
-      false,
-      "Available"
+    videoGameCreate(
+      "Elden Ring",
+      "Elden Ring[a] is a 2022 action role-playing game developed by FromSoftware and published by Bandai Namco Entertainment. Directed by Hidetaka Miyazaki with worldbuilding provided by fantasy writer George R. R. Martin, it was released for PlayStation 4, PlayStation 5, Windows, Xbox One, and Xbox Series X/S on February 25. In the game, players control a customizable player character on a journey to repair the titular Elden Ring and become the new Elden Lord.",
+      59.99,
+      20,
+      new Date(2022, 2, 25),
+      developers[2],
+      [consoles[0], consoles[1], consoles[3], consoles[4], consoles[5]],
+      [genres[0], genres[1]]
     ),
-    bookInstanceCreate(
-      consoles[4],
-      "New York, NY Tom Doherty Associates, LLC, 2015.",
-      false,
-      "Available"
+    videoGameCreate(
+      "Pokemon HeartGold",
+      "Pokémon HeartGold Version[b] and Pokémon SoulSilver Version[c] are 2009 remakes of the 1999 Game Boy Color role-playing video games Pokémon Gold and Silver, also including features from Pokémon Crystal. The games are part of the fourth generation of the Pokémon video game series and were developed by Game Freak, published by The Pokémon Company and Nintendo for the Nintendo DS. In commemoration of the 10th anniversary of Gold and Silver, the games were released in Japan on September 12, 2009, and were later released in other regions during March 2010.",
+      39.99,
+      2,
+      new Date(2010, 3, 14),
+      developers[3],
+      [consoles[6]],
+      [genres[1]]
     ),
-    bookInstanceCreate(
-      consoles[4],
-      "New York, NY Tom Doherty Associates, LLC, 2015.",
-      false,
-      "Maintenance"
+    videoGameCreate(
+      "Chrono Trigger",
+      "Chrono Trigger[b] is a 1995 role-playing video game developed and published by Square. It was originally released for the Super Nintendo Entertainment System as the first game in the Chrono series. The game's development team included three designers that Square dubbed the \"Dream Team\": Hironobu Sakaguchi, creator of Square's Final Fantasy series; Yuji Horii, creator of Enix's Dragon Quest series; and Akira Toriyama, character designer of Dragon Quest and author of the Dragon Ball manga series. In addition, Takashi Tokita co-directed the game and co-wrote the scenario, Kazuhiko Aoki produced the game,[1] Masato Kato wrote most of the story, while composer Yasunori Mitsuda wrote most of the soundtrack before falling ill and deferring the remaining tracks to Final Fantasy series composer Nobuo Uematsu.[2][3] The game's story follows a group of adventurers who travel through time to prevent a global catastrophe.",
+      69.99,
+      0,
+      new Date(1995, 3, 11),
+      developers[4],
+      [consoles[6], consoles[7], consoles[8]],
+      [genres[1]]
     ),
-    bookInstanceCreate(
-      consoles[4],
-      "New York, NY Tom Doherty Associates, LLC, 2015.",
-      false,
-      "Loaned"
+    videoGameCreate(
+      "Persona 4 Golden",
+      "Persona 4 Golden, released in Japan as Persona 4: The Golden, was announced in August 2011 as a port of Persona 4 for the portable PlayStation Vita. It was originally planned by Atlus to be a PlayStation Portable title, similar to Persona 3 Portable, which would have required removing some of the features of the PlayStation 2 game. However, the Vita provided sufficient resources that allowed Atlus to expand the game.[92] It is an expanded version of the PlayStation 2 title, adding new features and story elements to the game. A new character named Marie was added to the story. Additional Personas, character outfits, and expanded spoken lines and anime cutscenes are included as well as two new Social Links for Marie and Tohru Adachi. The game supports the wireless networking features of the Vita, allowing a player to call in help from other players to help in dungeon battles.[93] Another new feature is a garden that produces items the player can use in the various dungeons.[94] The game was released in Japan on June 14, 2012.[95] Persona 4 Golden was also the first game in the series to be released in traditional Chinese.[96]",
+      39.99,
+      535,
+      developers[5],
+      [
+        consoles[0],
+        consoles[1],
+        consoles[4],
+        consoles[5],
+        consoles[9],
+        consoles[10],
+      ],
+      [genres[1]]
     ),
-    bookInstanceCreate(consoles[0], "Imprint XXX2", false, false),
-    bookInstanceCreate(consoles[1], "Imprint XXX3", false, false),
+    videoGameCreate(
+      "Phoenix Wright: Ace Attorney",
+      "Phoenix Wright: Ace Attorney[a] is a visual novel adventure game developed by Capcom Production Studio 4[3] and published by Capcom. It was released in 2001 for the Game Boy Advance in Japan and has been ported to multiple platforms. The 2005 Nintendo DS version, titled Gyakuten Saiban Yomigaeru Gyakuten in Japan, introduced an English language option, and was the first time the game was released in North America and Europe. It is the first entry in the Ace Attorney series; several sequels and spin-offs were produced, while this game has seen further ports and remasters for computers, game consoles, and mobile devices.",
+      19.99,
+      5456,
+      developers[6],
+      [consoles[6]],
+      [genres[2], genres[4]]
+    ),
+    videoGameCreate(
+      "Portal",
+      "Portal is a 2007 puzzle-platform game developed and published by Valve. It was released in a bundle, The Orange Box, for Windows, Xbox 360 and PlayStation 3, and has been since ported to other systems, including Mac OS X, Linux, Android (via Nvidia Shield), and Nintendo Switch.",
+      9.99,
+      213,
+      developers[7],
+      [consoles[1]],
+      [genres[2]]
+    ),
+    videoGameCreate(
+      "Nine Hours, Nine Persons, Nine Doors",
+      // eslint-disable-next-line quotes
+      'Nine Hours, Nine Persons, Nine Doors[b] is a visual novel and adventure video game developed by Chunsoft. It is the first installment in the Zero Escape series, and was released in Japan in December 2009 and in North America in November 2010 for the Nintendo DS. The story follows Junpei, a college student who is abducted along with eight other people and forced to play the "Nonary Game", which puts its participants in a life-or-death situation, to escape from a sinking cruise liner. The gameplay alternates between two types of sections: Escape sections, where the player completes puzzles in escape-the-room scenarios; and Novel sections, where the player reads the game\'s narrative and makes decisions that influence the story toward one of six different endings.',
+      19.99,
+      999,
+      developers[8],
+      [consoles[1]],
+      [genres[2], genres[4]]
+    ),
+    videoGameCreate(consoles[1], "Imprint XXX3", false, false),
   ]);
 }
