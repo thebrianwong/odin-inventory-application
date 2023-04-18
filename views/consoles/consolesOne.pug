@@ -4,7 +4,7 @@ block content
   h1 Console ID #{title}
   h2= console.name
   if (console.releaseDate)
-    p Released in #{console.releaseDate.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"})} by #{console.creator}
+    p Released in #{console.releaseDateDisplayFormatted} by #{console.creator}
   else 
     p By #{console.creator}
   p= console.description 

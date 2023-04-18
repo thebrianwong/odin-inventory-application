@@ -21,6 +21,14 @@ VideoGameSchema.virtual("priceFormatted").get(function () {
   return `$${this.price}`;
 });
 
+VideoGameSchema.virtual("releaseDateDisplayFormatted").get(function () {
+  return this.releaseDate.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+});
+
 const VideoGame = mongoose.model("VideoGame", VideoGameSchema);
 
 module.exports = VideoGame;
