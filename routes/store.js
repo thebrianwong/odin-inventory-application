@@ -1,5 +1,6 @@
 const express = require("express");
 const VideoGameController = require("../controllers/videoGameController");
+const DeveloperController = require("../controllers/developerController");
 
 const router = express.Router();
 
@@ -77,14 +78,10 @@ router.delete("/videogames/:id/delete", (req, res) => {
 });
 
 // display all developers
-router.get("/developers", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/developers", DeveloperController.displayAllDevelopers);
 
 // display a specific developer
-router.get("/developers/:id", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/developers/:id", DeveloperController.displayOneDeveloper);
 
 // console routes
 
