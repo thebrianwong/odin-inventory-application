@@ -21,10 +21,10 @@ const displayAllConsoles = async (req, res, next) => {
 
 const displayOneConsole = async (req, res, next) => {
   try {
-    const consoleDoc = await Console.findById(req.params.id).exec();
-    const consoleGames = await VideoGame.find({ console: req.params.id })
-      .sort({ name: 1 })
-      .exec();
+    const [consoleDoc, consoleGames] = await Promise.all([
+      Console.findById(req.params.id).exec(),
+      VideoGame.find({ console: req.params.id }).sort({ name: 1 }).exec(),
+    ]);
     if (consoleDoc === null) {
       const err = new Error("Console does not exist");
       err.status = 404;
