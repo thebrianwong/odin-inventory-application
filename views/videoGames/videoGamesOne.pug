@@ -4,17 +4,17 @@ block content
   h1 Game ID #{title}
   h2= game.name 
   p Developed by 
-    a(href=game.developer.url)=game.developer.name
+    a(href=game.developer.url)= game.developer.name
   p Originally released on #{game.releaseDate.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"})}
   p= game.price !== undefined ? `Price: ${game.price}` : "Price Unavailable"
   p= game.copies !== undefined ? `Copies in stock: ${game.copies}` : "Number of Copies Unavailable"
   p= game.description
   p Available on: 
   for console in game.console
-    p= console.name 
+    a(href=console.url)= console.name 
   p Genres:
   if (game.genre)
     for genre in game.genre 
-      p= genre.name 
+      a(href=genre.url)= genre.name 
   else 
     p None
