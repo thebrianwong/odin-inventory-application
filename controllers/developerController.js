@@ -13,7 +13,9 @@ const displayOneDeveloper = async (req, res) => {
   const developer = await Developer.findById(req.params.id).exec();
   const developedGames = await VideoGames.find({
     developer: req.params.id,
-  }).exec();
+  })
+    .sort({ name: 1 })
+    .exec();
   res.render("../views/developers/developersOne", {
     title: req.params.id,
     developer,
