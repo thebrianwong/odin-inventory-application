@@ -20,6 +20,20 @@ const storeIndex = async (req, res) => {
   });
 };
 
+const displayAllGames = async (req, res) => {
+  const gameList = await VideoGame.find({})
+    .sort({ name: 1 })
+    .populate("developer")
+    .populate("console")
+    .populate("genre")
+    .exec();
+  res.render("../views/videoGames/videoGamesAll", {
+    title: "OdinStop Video Games",
+    gameList,
+  });
+};
+
 module.exports = {
   storeIndex,
+  displayAllGames,
 };

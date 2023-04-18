@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+  h1= title 
+  for game in gameList 
+    a(href=game.url) 
+      button #{game.name}
+    p=game.developer.name
+    for genre in game.genre 
+      p=genre.name

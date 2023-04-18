@@ -39,9 +39,7 @@ router.delete("/videogames/:id/delete", (req, res) => {
 });
 
 // display all games
-router.get("/videogames", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/videogames", VideoGameController.displayAllGames);
 
 // display a specific game
 router.get("/videogames/:id", (req, res) => {
