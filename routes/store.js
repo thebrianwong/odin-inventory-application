@@ -126,14 +126,10 @@ router.get("/consoles/:id", ConsoleController.displayOneConsole);
 // genre routes
 
 // form to add new genre
-router.get("/genres/new", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/genres/new", GenreController.getNewGenreForm);
 
 // submit new genre
-router.post("/genres/new", (req, res) => {
-  res.send("placeholder");
-});
+router.post("/genres/new", GenreController.postNewGenre);
 
 // form to update existing genre
 router.get("/genres/:id/update", (req, res) => {

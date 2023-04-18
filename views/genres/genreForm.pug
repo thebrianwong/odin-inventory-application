@@ -1,0 +1,14 @@
+extends ../layout
+
+block content 
+  h1= title 
+  form(action="", method="post") 
+    label(for="name") Genre:
+      input#name(type="text", name="name", required, minlength=1, value=(genre ? genre.name : ""))
+    label(for="description") Description: 
+      textarea#description(name="description", cols="30", rows="10", required, minlength=1)= genre ? genre.description : ""
+    input(type="submit", value="Add Genre")
+
+  if (errors)
+    for error in errors 
+      p= error.msg
