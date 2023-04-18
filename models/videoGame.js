@@ -17,6 +17,10 @@ VideoGameSchema.virtual("url").get(function () {
   return `/store/videogames/${this._id}`;
 });
 
+VideoGameSchema.virtual("priceFormatted").get(function () {
+  return `$${this.price}`;
+});
+
 const VideoGame = mongoose.model("VideoGame", VideoGameSchema);
 
 module.exports = VideoGame;

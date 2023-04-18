@@ -6,7 +6,7 @@ block content
   p Developed by 
     a(href=game.developer.url)= game.developer.name
   p Originally released on #{game.releaseDate.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"})}
-  p= game.price !== undefined ? `Price: ${game.price}` : "Price Unavailable"
+  p= game.price !== undefined ? `Price: ${game.priceFormatted}` : "Price Unavailable"
   p= game.copies !== undefined ? `Copies in stock: ${game.copies}` : "Number of Copies Unavailable"
   p= game.description
   p Available on: 
