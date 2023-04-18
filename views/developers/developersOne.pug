@@ -3,8 +3,10 @@ extends ../layout
 block content 
   h1 Developer ID #{title} 
   h2=developer.name 
-  p Founded in #{developer.founded}
-  p Headquartered in #{developer.headquartersFormatted}
+  if (developer.founded !== undefined)
+    p Founded in #{developer.founded}
+  if (developer.headquarters)
+    p Headquartered in #{developer.headquartersFormatted}
   p=developer.description
 
   p Games Developed by #{developer.name}:

@@ -5,6 +5,8 @@ block content
   h2= console.name
   if (console.releaseDate)
     p Released in #{console.releaseDate.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"})} by #{console.creator}
+  else 
+    p By #{console.creator}
   p= console.description 
 
   p Games Available on the #{console.name}:

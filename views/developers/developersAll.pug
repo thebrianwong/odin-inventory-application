@@ -5,4 +5,5 @@ block content
   for developer in developerList
     a(href=developer.url) 
       button= developer.name 
-    p Founded in #{developer.founded} 
+    if (developer.founded)
+      p Founded in #{developer.founded} 
