@@ -120,9 +120,7 @@ router.delete("/videogames/:id/delete", (req, res) => {
 router.get("/consoles", ConsoleController.displayAllConsoles);
 
 // display a specific console
-router.get("/consoles/:id", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/consoles/:id", ConsoleController.displayOneConsole);
 
 // genre routes
 
