@@ -2,24 +2,44 @@ const { body, validationResult } = require("express-validator");
 const Genre = require("../models/genre");
 const VideoGame = require("../models/videoGame");
 
-const displayAllGenres = async (req, res) => {
-  const genreList = await Genre.find({}).sort({ name: 1 }).exec();
-  res.render("../views/genres/genresAll", {
-    title: "OdinStop Genres",
-    genreList,
-  });
+const displayAllGenres = async (req, res, next) => {
+  try {
+    const genreList = await Genre.find({}).sort({ name: 1 }).exec();
+    if (genreList === null) {
+      const err = new Error("There was an error loading genres");
+      err.status = 404;
+      next(err);
+    }
+    res.render("../views/genres/genresAll", {
+      title: "OdinStop Genres",
+      genreList,
+    });
+  } catch (err) {
+    err.status = 404;
+    next(err);
+  }
 };
 
-const displayOneGenre = async (req, res) => {
-  const genre = await Genre.findById(req.params.id).exec();
-  const genreGames = await VideoGame.find({ genre: req.params.id })
-    .sort({ name: 1 })
-    .exec();
-  res.render("../views/genres/genresOne", {
-    title: req.params.id,
-    genre,
-    genreGames,
-  });
+const displayOneGenre = async (req, res, next) => {
+  try {
+    const [genre, genreGames] = await Promise.all([
+      Genre.findById(req.params.id).exec(),
+      VideoGame.find({ genre: req.params.id }).sort({ name: 1 }).exec(),
+    ]);
+    if (genre === null) {
+      const err = new Error("Genre does not exist");
+      err.status = 404;
+      next(err);
+    }
+    res.render("../views/genres/genresOne", {
+      title: req.params.id,
+      genre,
+      genreGames,
+    });
+  } catch (err) {
+    err.status = 404;
+    next(err);
+  }
 };
 
 const getNewGenreForm = (req, res) => {
