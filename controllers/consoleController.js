@@ -1,24 +1,44 @@
 const Console = require("../models/console");
 const VideoGame = require("../models/videoGame");
 
-const displayAllConsoles = async (req, res) => {
-  const consoleList = await Console.find({}).sort({ name: 1 }).exec();
-  res.render("../views/consoles/consolesAll", {
-    title: "OdinStop Consoles",
-    consoleList,
-  });
+const displayAllConsoles = async (req, res, next) => {
+  try {
+    const consoleList = await Console.find({}).sort({ name: 1 }).exec();
+    if (consoleList === null) {
+      const err = new Error("There was an error loading consoles");
+      err.status = 404;
+      next(err);
+    }
+    res.render("../views/consoles/consolesAll", {
+      title: "OdinStop Consoles",
+      consoleList,
+    });
+  } catch (err) {
+    err.status = 404;
+    next(err);
+  }
 };
 
-const displayOneConsole = async (req, res) => {
-  const consoleDoc = await Console.findById(req.params.id).exec();
-  const consoleGames = await VideoGame.find({ console: req.params.id })
-    .sort({ name: 1 })
-    .exec();
-  res.render("../views/consoles/consolesOne", {
-    title: req.params.id,
-    console: consoleDoc,
-    consoleGames,
-  });
+const displayOneConsole = async (req, res, next) => {
+  try {
+    const consoleDoc = await Console.findById(req.params.id).exec();
+    const consoleGames = await VideoGame.find({ console: req.params.id })
+      .sort({ name: 1 })
+      .exec();
+    if (consoleDoc === null) {
+      const err = new Error("Console does not exist");
+      err.status = 404;
+      next(err);
+    }
+    res.render("../views/consoles/consolesOne", {
+      title: req.params.id,
+      console: consoleDoc,
+      consoleGames,
+    });
+  } catch (err) {
+    err.status = 404;
+    next(err);
+  }
 };
 
 module.exports = {
