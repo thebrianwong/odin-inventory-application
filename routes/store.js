@@ -1,11 +1,10 @@
 const express = require("express");
+const VideoGameController = require("../controllers/videoGameController");
 
 const router = express.Router();
 
 // display options to browse by game, developer, console, and genre
-router.get("/", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/", VideoGameController.storeIndex);
 
 // video game routes
 
