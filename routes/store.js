@@ -84,14 +84,10 @@ router.get("/developers/:id", DeveloperController.displayOneDeveloper);
 // console routes
 
 // form to add new console
-router.get("/consoles/new", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/consoles/new", ConsoleController.getNewConsoleForm);
 
 // submit new console
-router.post("/consoles/new", (req, res) => {
-  res.send("placeholder");
-});
+router.post("/consoles/new", ConsoleController.postNewConsole);
 
 // form to update existing console
 router.get("/consoles/:id/update", (req, res) => {

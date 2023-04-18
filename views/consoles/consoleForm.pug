@@ -1,0 +1,18 @@
+extends ../layout
+
+block content 
+  h1= title 
+  form(action="", method="post") 
+    label(for="name") Console (required) : 
+      input#name(type="text", name="name", required, minlength=1, value=(console ? console.name : ""))
+    label(for="creator") Created By (required) : 
+      input#creator(type="text", name="creator", required, minlength=1, value=(console ? console.creator : ""))
+    label(for="description") Description (required) : 
+      textarea#description(name="description", cols="30", rows="10", required, minlength=1)= console ? console.description : ""
+    label(for="releaseDate") Released On (optional): 
+      input#releaseDate(type="date", name="releaseDate", value=(console ? console.releaseDate : "")) 
+    input(type="submit", value="Add console")
+
+  if (errors)
+    for error in errors 
+      p= error.msg
