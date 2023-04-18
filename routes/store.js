@@ -2,6 +2,7 @@ const express = require("express");
 const VideoGameController = require("../controllers/videoGameController");
 const DeveloperController = require("../controllers/developerController");
 const ConsoleController = require("../controllers/consoleController");
+const GenreController = require("../controllers/genreController");
 
 const router = express.Router();
 
@@ -155,9 +156,7 @@ router.delete("/videogames/:id/delete", (req, res) => {
 });
 
 // display all genres
-router.get("/genres", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/genres", GenreController.displayAllGenres);
 
 // display a specific genre
 router.get("/genres/:id", (req, res) => {
