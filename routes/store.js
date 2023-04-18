@@ -69,13 +69,13 @@ router.put("/developers/:id/update", (req, res) => {
   res.send("placeholder");
 });
 
-// page to delete game
-router.get("/videogames/:id/delete", (req, res) => {
+// page to delete developer
+router.get("/developer/:id/delete", (req, res) => {
   res.send("placeholder");
 });
 
-// delete game
-router.delete("/videogames/:id/delete", (req, res) => {
+// delete developer
+router.delete("/developer/:id/delete", (req, res) => {
   res.send("placeholder");
 });
 
@@ -107,13 +107,13 @@ router.put("/consoles/:id/update", (req, res) => {
   res.send("placeholder");
 });
 
-// page to delete game
-router.get("/videogames/:id/delete", (req, res) => {
+// page to delete console
+router.get("/consoles/:id/delete", (req, res) => {
   res.send("placeholder");
 });
 
-// delete game
-router.delete("/videogames/:id/delete", (req, res) => {
+// delete console
+router.delete("/consoles/:id/delete", (req, res) => {
   res.send("placeholder");
 });
 
@@ -141,13 +141,13 @@ router.put("/genres/:id/update", (req, res) => {
   res.send("placeholder");
 });
 
-// page to delete game
-router.get("/videogames/:id/delete", (req, res) => {
+// page to delete genre
+router.get("/genres/:id/delete", (req, res) => {
   res.send("placeholder");
 });
 
-// delete game
-router.delete("/videogames/:id/delete", (req, res) => {
+// delete genre
+router.delete("/genres/:id/delete", (req, res) => {
   res.send("placeholder");
 });
 
