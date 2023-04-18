@@ -9,7 +9,8 @@ block content
     p By #{console.creator}
   p= console.description 
 
-  p Games Available on the #{console.name}:
-  for game in consoleGames 
-    a(href=game.url)
-      button= game.name
+  if (consoleGames.length)
+    p Games Available on the #{console.name}:
+    for game in consoleGames 
+      a(href=game.url)
+        button= game.name

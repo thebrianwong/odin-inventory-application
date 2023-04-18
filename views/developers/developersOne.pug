@@ -9,7 +9,8 @@ block content
     p Headquartered in #{developer.headquartersFormatted}
   p=developer.description
 
-  p Games Developed by #{developer.name}:
-  for game in developedGames 
-    a(href=game.url) 
-      button=game.name
+  if (developedGames.length)
+    p Games Developed by #{developer.name}:
+    for game in developedGames 
+      a(href=game.url) 
+        button=game.name
