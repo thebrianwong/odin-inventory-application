@@ -159,8 +159,6 @@ router.delete("/videogames/:id/delete", (req, res) => {
 router.get("/genres", GenreController.displayAllGenres);
 
 // display a specific genre
-router.get("/genres/:id", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/genres/:id", GenreController.displayOneGenre);
 
 module.exports = router;
