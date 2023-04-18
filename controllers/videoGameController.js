@@ -32,7 +32,20 @@ const displayAllGames = async (req, res) => {
   });
 };
 
+const displayOneGame = async (req, res) => {
+  const game = await VideoGame.findById(req.params.id)
+    .populate("developer")
+    .populate("console")
+    .populate("genre")
+    .exec();
+  res.render("../views/videoGames/videoGamesOne", {
+    title: req.params.id,
+    game,
+  });
+};
+
 module.exports = {
   storeIndex,
   displayAllGames,
+  displayOneGame,
 };
