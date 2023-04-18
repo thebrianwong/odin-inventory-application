@@ -14,12 +14,23 @@ DeveloperSchema.virtual("url").get(function () {
 });
 
 DeveloperSchema.virtual("headquartersFormatted").get(function () {
-  let location = this.headquarters.get("country");
+  let location = "";
+  if (this.headquarters.get("country")) {
+    location = this.headquarters.get("country");
+  }
   if (this.headquarters.get("state")) {
-    location = `${this.headquarters.get("state")}, ${location}`;
+    if (location === "") {
+      location = this.headquarters.get("state");
+    } else {
+      location = `${this.headquarters.get("state")}, ${location}`;
+    }
   }
   if (this.headquarters.get("city")) {
-    location = `${this.headquarters.get("city")}, ${location}`;
+    if (location === "") {
+      location = this.headquarters.get("city");
+    } else {
+      location = `${this.headquarters.get("city")}, ${location}`;
+    }
   }
   return location;
 });
