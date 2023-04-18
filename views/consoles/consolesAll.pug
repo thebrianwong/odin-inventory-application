@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+  h1= title
+  for console in consoleList
+    a(href=console.url)
+      button= console.name
+    p By #{console.creator}

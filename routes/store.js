@@ -1,6 +1,7 @@
 const express = require("express");
 const VideoGameController = require("../controllers/videoGameController");
 const DeveloperController = require("../controllers/developerController");
+const ConsoleController = require("../controllers/consoleController");
 
 const router = express.Router();
 
@@ -116,9 +117,7 @@ router.delete("/videogames/:id/delete", (req, res) => {
 });
 
 // display all consoles
-router.get("/consoles", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/consoles", ConsoleController.displayAllConsoles);
 
 // display a specific console
 router.get("/consoles/:id", (req, res) => {
