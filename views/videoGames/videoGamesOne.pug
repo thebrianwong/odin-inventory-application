@@ -2,16 +2,16 @@ extends ../layout
 
 block content 
   h1 Game ID #{title}
-  h2=game.name 
+  h2= game.name 
   p Developed by 
     a(href=game.developer.url)=game.developer.name
-  p=`Originally released on ${game.releaseDate.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"})}`
+  p Originally released on #{game.releaseDate.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"})}
   p Price: #{game.price} 
   p Copies in stock: #{game.copies}
-  p=game.description
+  p= game.description
   p Available on: 
   for console in game.console
-    p=console.name 
+    p= console.name 
   p Genres:
   for genre in game.genre 
-    p=genre.name 
+    p= genre.name 

@@ -4,10 +4,10 @@ block content
   h1 Console ID #{title}
   h2= console.name
   if (console.releaseDate)
-    p Release in #{console.releaseDate.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"})} by #{console.creator}
+    p Released in #{console.releaseDate.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"})} by #{console.creator}
   p= console.description 
 
   p Games Available on the #{console.name}:
   for game in consoleGames 
     a(href=game.url)
-      button #{game.name} 
+      button= game.name
