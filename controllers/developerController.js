@@ -1,3 +1,4 @@
+const { body, validationResult } = require("express-validator");
 const Developer = require("../models/developer");
 const VideoGames = require("../models/videoGame");
 
@@ -45,7 +46,92 @@ const displayOneDeveloper = async (req, res, next) => {
   }
 };
 
+const getNewDeveloperForm = (req, res) => {
+  res.render("../views/developers/developerForm", {
+    title: "New Developer",
+  });
+};
+
+const postNewDeveloper = [
+  body("name", "Developer name must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("description", "Description must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("founded", "Founded year must be a valid number without leading zeros")
+    .optional({ values: "falsy" })
+    .trim()
+    .isInt({ min: 1, allow_leading_zeroes: false })
+    .escape(),
+  body("city", "City must contain alphabet characters")
+    .optional({ values: "falsy" })
+    .trim()
+    .isAlpha()
+    .escape(),
+  body("state", "State must contain alphabet characters")
+    .optional({ values: "falsy" })
+    .trim()
+    .isAlpha()
+    .escape(),
+  body("country", "Country must contain alphabet characters")
+    .optional({ values: "falsy" })
+    .trim()
+    .isAlpha()
+    .escape(),
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      const developerDetails = {
+        name: req.body.name,
+        description: req.body.description,
+      };
+      if (req.body.founded) {
+        developerDetails.founded = req.body.founded;
+      }
+      if (req.body.city || req.body.state || req.body.country) {
+        developerDetails.headquarters = {};
+        if (req.body.city) {
+          developerDetails.headquarters.city = req.body.city;
+        }
+        if (req.body.state) {
+          developerDetails.headquarters.state = req.body.state;
+        }
+        if (req.body.country) {
+          developerDetails.headquarters.country = req.body.country;
+        }
+      }
+      const developer = new Developer(developerDetails);
+      if (!errors.isEmpty()) {
+        res.render("../views/developers/developerForm", {
+          title: "New Developer",
+          developer,
+          errors: errors.array(),
+        });
+      } else {
+        const developerExists = await Developer.findOne({
+          name: req.body.name,
+          description: req.body.description,
+        }).exec();
+        if (developerExists) {
+          res.redirect(developerExists.url);
+        } else {
+          await developer.save();
+          res.redirect(developer.url);
+        }
+      }
+    } catch (err) {
+      err.status = 400;
+      next(err);
+    }
+  },
+];
+
 module.exports = {
   displayAllDevelopers,
   displayOneDeveloper,
+  getNewDeveloperForm,
+  postNewDeveloper,
 };

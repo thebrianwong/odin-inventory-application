@@ -50,14 +50,10 @@ router.get("/videogames/:id", VideoGameController.displayOneGame);
 // developer routes
 
 // form to add new developer
-router.get("/developers/new", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/developers/new", DeveloperController.getNewDeveloperForm);
 
 // submit new developer
-router.post("/developers/new", (req, res) => {
-  res.send("placeholder");
-});
+router.post("/developers/new", DeveloperController.postNewDeveloper);
 
 // form to update existing developer
 router.get("/developers/:id/update", (req, res) => {
