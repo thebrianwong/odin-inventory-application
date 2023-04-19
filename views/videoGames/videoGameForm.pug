@@ -45,7 +45,7 @@ block content
                 : false)
               : false ||
             query.console
-              ? (query.console.includes(console.id)
+              ? (query.console.includes(console._id)
                 ? true
                 : false)
             : false)
@@ -55,7 +55,19 @@ block content
       legend This Game is a(n) (optional) :
       for genre in genreList 
         label(for=genre.name)= genre.name 
-        input(id=genre.name, type="checkbox", name="genre", value=genre._id, checked=( game ? (game.genre.includes(genre._id) ? true : false) : false))
+        input(id=genre.name, type="checkbox", name="genre", value=genre._id,
+          checked=(
+            game
+              ? (game.genre.includes(genre._id)
+                ? true
+                : false)
+              : false ||
+            query.genre 
+              ? (query.genre.includes(genre._id)
+                ? true
+                : false)
+            : false)
+          )
 
     input(type="submit", value="Add game")
 
