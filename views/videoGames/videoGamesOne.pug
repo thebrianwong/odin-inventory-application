@@ -9,11 +9,14 @@ block content
   p= game.price !== undefined ? `Price: ${game.priceFormatted}` : "Price Unavailable"
   p= game.copies !== undefined ? `Copies in stock: ${game.copies}` : "Number of Copies Unavailable"
   p= game.description
-  p Available on: 
-  for console in game.console
-    a(href=console.url)= console.name 
+  p Available on:
+  if (game.console.length)
+    for console in game.console
+      a(href=console.url)= console.name 
+  else 
+    p None
   p Genres:
-  if (game.genre)
+  if (game.genre.length)
     for genre in game.genre 
       a(href=genre.url)= genre.name 
   else 

@@ -6,6 +6,6 @@ block content
     a(href=game.url) 
       button= game.name
     p= game.developer.name
-    if (game.genre)
+    if (game.genre.length)
       for genre in game.genre 
         p= genre.name
