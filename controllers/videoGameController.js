@@ -82,6 +82,7 @@ const getNewGameForm = async (req, res, next) => {
       developerList,
       consoleList,
       genreList,
+      query: req.query,
     });
   } catch (err) {
     err.status = 404;
@@ -133,7 +134,6 @@ const postNewGame = [
       }
       const game = new VideoGame(gameDetails);
       if (!errors.isEmpty()) {
-        console.log("uhoh");
         const [developerList, consoleList, genreList] = await Promise.all([
           Developer.find({}).sort({ name: 1 }).exec(),
           Console.find({}).sort({ name: 1 }).exec(),
