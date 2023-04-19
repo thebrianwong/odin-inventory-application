@@ -2,7 +2,6 @@ extends ../layout
 
 block content 
   h1= title 
-  p= game
   form(action="", method="post") 
     label(for="name") Video Game (required) : 
       input#name(type="text", name="name", required, minlength=1, value=(game ? game.name : ""))
@@ -27,8 +26,8 @@ block content
                 ? (game.developer.toString() === developer._id.toString()
                   ? true
                   : false)
-                : false) || (
-              query
+                : false ||
+              query.developer
                 ? (query.developer.toString() === developer._id.toString()
                   ? true
                   : false)
@@ -38,7 +37,19 @@ block content
       legend Available on the Following Consoles (optional) :
       for console in consoleList 
         label(for=console.name)= console.name 
-        input(id=console.name, type="checkbox", name="console", value=console._id, checked=( game ? (game.console.includes(console._id) ? true : false) : false))
+        input(id=console.name, type="checkbox", name="console", value=console._id,
+          checked=(
+            game
+              ? (game.console.includes(console._id)
+                ? true
+                : false)
+              : false ||
+            query.console
+              ? (query.console.includes(console.id)
+                ? true
+                : false)
+            : false)
+          )
 
     fieldset 
       legend This Game is a(n) (optional) :
