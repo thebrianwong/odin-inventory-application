@@ -17,7 +17,7 @@ block content
         input#state(type="text", name="state", value=(developer ? developer.headquarters.get("state") : "")) 
       label(for="country") Country: 
         input#country(type="text", name="country", value=(developer ? developer.headquarters.get("country") : "")) 
-    input(type="submit", value="Add Developer")
+    input(type="submit", value=buttonLabel)
 
   if (errors)
     for error in errors 

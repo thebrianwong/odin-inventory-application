@@ -49,6 +49,7 @@ const displayOneDeveloper = async (req, res, next) => {
 const getNewDeveloperForm = (req, res) => {
   res.render("../views/developers/developerForm", {
     title: "New Developer",
+    buttonLabel: "Add Developer",
   });
 };
 
@@ -108,6 +109,7 @@ const postNewDeveloper = [
         res.render("../views/developers/developerForm", {
           title: "New Developer",
           developer,
+          buttonLabel: "Add Developer",
           errors: errors.array(),
         });
       } else {

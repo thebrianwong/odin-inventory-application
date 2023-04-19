@@ -45,6 +45,7 @@ const displayOneConsole = async (req, res, next) => {
 const getNewConsoleForm = (req, res) => {
   res.render("../views/consoles/consoleForm", {
     title: "New Console",
+    buttonLabel: "Add Console",
   });
 };
 
@@ -81,6 +82,7 @@ const postNewConsole = [
         res.render("../views/consoles/consoleForm", {
           title: "New Console",
           console: consoleDoc,
+          buttonLabel: "Add Console",
           errors: errors.array(),
         });
       } else {

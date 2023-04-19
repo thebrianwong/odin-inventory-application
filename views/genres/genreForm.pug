@@ -7,7 +7,7 @@ block content
       input#name(type="text", name="name", required, minlength=1, value=(genre ? genre.name : ""))
     label(for="description") Description (required) : 
       textarea#description(name="description", cols="30", rows="10", required, minlength=1)= genre ? genre.description : ""
-    input(type="submit", value="Add Genre")
+    input(type="submit", value=buttonLabel)
 
   if (errors)
     for error in errors 

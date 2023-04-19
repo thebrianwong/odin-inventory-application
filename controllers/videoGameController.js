@@ -82,6 +82,7 @@ const getNewGameForm = async (req, res, next) => {
       developerList,
       consoleList,
       genreList,
+      buttonLabel: "Add Game",
       query: req.query,
     });
   } catch (err) {
@@ -145,6 +146,7 @@ const postNewGame = [
           consoleList,
           genreList,
           game,
+          buttonLabel: "Add Game",
           errors: errors.array(),
         });
       } else {

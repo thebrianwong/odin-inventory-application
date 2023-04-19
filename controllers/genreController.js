@@ -45,6 +45,7 @@ const displayOneGenre = async (req, res, next) => {
 const getNewGenreForm = (req, res) => {
   res.render("../views/genres/genreForm", {
     title: "New Genre",
+    buttonLabel: "Add Genre",
   });
 };
 
@@ -68,6 +69,7 @@ const postNewGenre = [
         res.render("../views/genres/genreForm", {
           title: "New Genre",
           genre,
+          buttonLabel: "Add Genre",
           errors: errors.array(),
         });
       } else {
