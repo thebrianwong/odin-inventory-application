@@ -7,7 +7,7 @@ const VideoGameSchema = new Schema({
   description: { type: String, required: true },
   releaseDate: { type: Date, required: true },
   developer: { type: Schema.Types.ObjectId, ref: "Developer", required: true },
-  console: [{ type: Schema.Types.ObjectId, ref: "Console", required: true }],
+  console: [{ type: Schema.Types.ObjectId, ref: "Console" }],
   genre: [{ type: Schema.Types.ObjectId, ref: "Genre" }],
   price: Number,
   copies: Number,
