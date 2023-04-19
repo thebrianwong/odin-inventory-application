@@ -10,3 +10,6 @@ block content
     for game in genreGames 
       a(href=game.url)
         button= game.name 
+
+  a(href=`/store/videogames/new?genre=${genre._id}`)
+    button Add New #{genre.name} Game
