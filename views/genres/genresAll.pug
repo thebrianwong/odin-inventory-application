@@ -2,6 +2,7 @@ extends ../layout
 
 block content 
   h1= title 
+  a(href="/store/genres/new") Add New Genre 
   for genre in genreList 
     a(href=genre.url)
       button= genre.name 

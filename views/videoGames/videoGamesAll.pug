@@ -2,6 +2,7 @@ extends ../layout
 
 block content
   h1= title 
+  a(href="/store/videogames/new") Add New Game
   for game in gameList 
     a(href=game.url) 
       button= game.name

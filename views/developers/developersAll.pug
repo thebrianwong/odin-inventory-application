@@ -2,6 +2,7 @@ extends ../layout
 
 block content 
   h1= title
+  a(href="/store/developers/new") Add New Developer 
   for developer in developerList
     a(href=developer.url) 
       button= developer.name 
