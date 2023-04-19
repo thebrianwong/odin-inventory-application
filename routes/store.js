@@ -12,14 +12,10 @@ router.get("/", VideoGameController.storeIndex);
 // video game routes
 
 // form to add new game
-router.get("/videogames/new", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/videogames/new", VideoGameController.getNewGameForm);
 
 // submit new game
-router.post("/videogames/new", (req, res) => {
-  res.send("placeholder");
-});
+router.post("/videogames/new", VideoGameController.postNewGame);
 
 // form to update existing game
 router.get("/videogames/:id/update", (req, res) => {

@@ -1,0 +1,40 @@
+extends ../layout
+
+block content 
+  h1= title 
+  form(action="", method="post") 
+    label(for="name") Video Game (required) : 
+      input#name(type="text", name="name", required, minlength=1, value=(videoGame ? videoGame.name : ""))
+    label(for="description") Description (required) : 
+      textarea#description(name="description", cols="30", rows="10", required, minlength=1)= videoGame ? videoGame.description : ""
+    label(for="releaseDate") Release Date (required) : 
+      input#releaseDate(type="date", name="releaseDate", required, value=(videoGame ? videoGame.releaseDate : "")) 
+
+    label(for="price") Price (optional) :
+      input#price(type="number", name="price", min=0, step=0.01, value=(videoGame ? videoGame.price : ""))
+
+    label(for="copies") Copies in Stock (optional) :
+      input#copies(type="number", name="copies", min=0, value=(videoGame ? videoGame.copies : "")) 
+
+    label(for="developer") Developed by (required) :
+      select#developer(name="developer", required)
+        option(value="") List of Developers 
+        for developer in developerList 
+          option(value=developer._id, selected=( videoGame ? (videoGame.developer === developer._id ? true : false) : false))= developer.name
+    fieldset 
+      legend Available on the Following Consoles (optional) :
+      for console in consoleList 
+        label(for=console.name)= console.name 
+        input(id=console.name, type="checkbox", name="console", value=console._id, checked=( videoGame ? (videoGame.console.includes(console._id) ? true : false) : false))
+
+    fieldset 
+      legend This Game is a(n) (optional) :
+      for genre in genreList 
+        label(for=genre.name)= genre.name 
+        input(id=genre.name, type="checkbox", name="genre", value=genre._id, checked=( videoGame ? (videoGame.genre.includes(genre._id) ? true : false) : false))
+
+    input(type="submit", value="Add game")
+
+  if (errors)
+    for error in errors 
+      p= error.msg
