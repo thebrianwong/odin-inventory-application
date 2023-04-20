@@ -4,7 +4,7 @@ const Developer = require("../models/developer");
 const Console = require("../models/console");
 const Genre = require("../models/genre");
 
-const storeIndex = async (req, res, next) => {
+const getStoreIndex = async (req, res, next) => {
   try {
     const [videoGameCount, developerCount, consoleCount, genreCount] =
       await Promise.all([
@@ -26,7 +26,7 @@ const storeIndex = async (req, res, next) => {
   }
 };
 
-const displayAllGames = async (req, res, next) => {
+const getAllGames = async (req, res, next) => {
   try {
     const gameList = await VideoGame.find({})
       .sort({ name: 1 })
@@ -48,7 +48,7 @@ const displayAllGames = async (req, res, next) => {
   }
 };
 
-const displayOneGame = async (req, res, next) => {
+const getOneGame = async (req, res, next) => {
   try {
     const game = await VideoGame.findById(req.params.id)
       .populate("developer")
@@ -168,9 +168,9 @@ const postNewGame = [
 ];
 
 module.exports = {
-  storeIndex,
-  displayAllGames,
-  displayOneGame,
+  getStoreIndex,
+  getAllGames,
+  getOneGame,
   getNewGameForm,
   postNewGame,
 };

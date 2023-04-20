@@ -2,7 +2,7 @@ const { body, validationResult } = require("express-validator");
 const Developer = require("../models/developer");
 const VideoGames = require("../models/videoGame");
 
-const displayAllDevelopers = async (req, res, next) => {
+const getAllDevelopers = async (req, res, next) => {
   try {
     const developerList = await Developer.find({}).sort({ name: 1 }).exec();
     if (developerList === null) {
@@ -20,7 +20,7 @@ const displayAllDevelopers = async (req, res, next) => {
   }
 };
 
-const displayOneDeveloper = async (req, res, next) => {
+const getOneDeveloper = async (req, res, next) => {
   try {
     const [developer, developerGames] = await Promise.all([
       Developer.findById(req.params.id).exec(),
@@ -132,8 +132,8 @@ const postNewDeveloper = [
 ];
 
 module.exports = {
-  displayAllDevelopers,
-  displayOneDeveloper,
+  getAllDevelopers,
+  getOneDeveloper,
   getNewDeveloperForm,
   postNewDeveloper,
 };

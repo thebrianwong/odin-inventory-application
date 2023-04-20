@@ -7,7 +7,7 @@ const GenreController = require("../controllers/genreController");
 const router = express.Router();
 
 // display options to browse by game, developer, console, and genre
-router.get("/", VideoGameController.storeIndex);
+router.get("/", VideoGameController.getStoreIndex);
 
 // video game routes
 
@@ -38,10 +38,10 @@ router.delete("/videogames/:id/delete", (req, res) => {
 });
 
 // display all games
-router.get("/videogames", VideoGameController.displayAllGames);
+router.get("/videogames", VideoGameController.getAllGames);
 
 // display a specific game
-router.get("/videogames/:id", VideoGameController.displayOneGame);
+router.get("/videogames/:id", VideoGameController.getOneGame);
 
 // developer routes
 
@@ -72,10 +72,10 @@ router.delete("/developer/:id/delete", (req, res) => {
 });
 
 // display all developers
-router.get("/developers", DeveloperController.displayAllDevelopers);
+router.get("/developers", DeveloperController.getAllDevelopers);
 
 // display a specific developer
-router.get("/developers/:id", DeveloperController.displayOneDeveloper);
+router.get("/developers/:id", DeveloperController.getOneDeveloper);
 
 // console routes
 
@@ -89,7 +89,7 @@ router.post("/consoles/new", ConsoleController.postNewConsole);
 router.get("/consoles/:id/update", ConsoleController.getUpdateConsoleForm);
 
 // submit game console
-router.put("/consoles/:id/update", ConsoleController.postUpdatedConsole);
+router.put("/consoles/:id/update", ConsoleController.putUpdatedConsole);
 
 // page to delete console
 router.get("/consoles/:id/delete", (req, res) => {
@@ -102,10 +102,10 @@ router.delete("/consoles/:id/delete", (req, res) => {
 });
 
 // display all consoles
-router.get("/consoles", ConsoleController.displayAllConsoles);
+router.get("/consoles", ConsoleController.getAllConsoles);
 
 // display a specific console
-router.get("/consoles/:id", ConsoleController.displayOneConsole);
+router.get("/consoles/:id", ConsoleController.getOneConsole);
 
 // genre routes
 
@@ -119,7 +119,7 @@ router.post("/genres/new", GenreController.postNewGenre);
 router.get("/genres/:id/update", GenreController.getUpdateGenreForm);
 
 // submit game genre
-router.put("/genres/:id/update", GenreController.postUpdatedGenre);
+router.put("/genres/:id/update", GenreController.putUpdatedGenre);
 
 // page to delete genre
 router.get("/genres/:id/delete", (req, res) => {
@@ -132,9 +132,9 @@ router.delete("/genres/:id/delete", (req, res) => {
 });
 
 // display all genres
-router.get("/genres", GenreController.displayAllGenres);
+router.get("/genres", GenreController.getAllGenres);
 
 // display a specific genre
-router.get("/genres/:id", GenreController.displayOneGenre);
+router.get("/genres/:id", GenreController.getOneGenre);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const { body, validationResult } = require("express-validator");
 const Genre = require("../models/genre");
 const VideoGame = require("../models/videoGame");
 
-const displayAllGenres = async (req, res, next) => {
+const getAllGenres = async (req, res, next) => {
   try {
     const genreList = await Genre.find({}).sort({ name: 1 }).exec();
     if (genreList === null) {
@@ -20,7 +20,7 @@ const displayAllGenres = async (req, res, next) => {
   }
 };
 
-const displayOneGenre = async (req, res, next) => {
+const getOneGenre = async (req, res, next) => {
   try {
     const [genre, genreGames] = await Promise.all([
       Genre.findById(req.params.id).exec(),
@@ -110,7 +110,7 @@ const getUpdateGenreForm = async (req, res, next) => {
   }
 };
 
-const postUpdatedGenre = [
+const putUpdatedGenre = [
   body("name", "Genre name must not be empty")
     .trim()
     .isLength({ min: 1 })
@@ -144,10 +144,10 @@ const postUpdatedGenre = [
 ];
 
 module.exports = {
-  displayAllGenres,
-  displayOneGenre,
+  getAllGenres,
+  getOneGenre,
   getNewGenreForm,
   postNewGenre,
   getUpdateGenreForm,
-  postUpdatedGenre,
+  putUpdatedGenre,
 };

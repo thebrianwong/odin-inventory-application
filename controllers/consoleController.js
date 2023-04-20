@@ -2,7 +2,7 @@ const { body, validationResult } = require("express-validator");
 const Console = require("../models/console");
 const VideoGame = require("../models/videoGame");
 
-const displayAllConsoles = async (req, res, next) => {
+const getAllConsoles = async (req, res, next) => {
   try {
     const consoleList = await Console.find({}).sort({ name: 1 }).exec();
     if (consoleList === null) {
@@ -20,7 +20,7 @@ const displayAllConsoles = async (req, res, next) => {
   }
 };
 
-const displayOneConsole = async (req, res, next) => {
+const getOneConsole = async (req, res, next) => {
   try {
     const [consoleDoc, consoleGames] = await Promise.all([
       Console.findById(req.params.id).exec(),
@@ -124,7 +124,7 @@ const getUpdateConsoleForm = async (req, res, next) => {
   }
 };
 
-const postUpdatedConsole = [
+const putUpdatedConsole = [
   body("name", "Console name must not be empty")
     .trim()
     .isLength({ min: 1 })
@@ -172,10 +172,10 @@ const postUpdatedConsole = [
 ];
 
 module.exports = {
-  displayAllConsoles,
-  displayOneConsole,
+  getAllConsoles,
+  getOneConsole,
   getNewConsoleForm,
   postNewConsole,
   getUpdateConsoleForm,
-  postUpdatedConsole,
+  putUpdatedConsole,
 };
