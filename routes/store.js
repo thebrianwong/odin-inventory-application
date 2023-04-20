@@ -52,14 +52,13 @@ router.get("/developers/new", DeveloperController.getNewDeveloperForm);
 router.post("/developers/new", DeveloperController.postNewDeveloper);
 
 // form to update existing developer
-router.get("/developers/:id/update", (req, res) => {
-  res.send("placeholder");
-});
+router.get(
+  "/developers/:id/update",
+  DeveloperController.getUpdateDeveloperForm
+);
 
 // submit developer updates
-router.put("/developers/:id/update", (req, res) => {
-  res.send("placeholder");
-});
+router.put("/developers/:id/update", DeveloperController.putUpdatedDeveloper);
 
 // page to delete developer
 router.get("/developer/:id/delete", (req, res) => {
