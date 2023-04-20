@@ -35,6 +35,17 @@ DeveloperSchema.virtual("headquartersFormatted").get(function () {
   return location;
 });
 
+DeveloperSchema.virtual("hasHeadquartersData").get(function () {
+  if (
+    this.headquarters.get("city") ||
+    this.headquarters.get("state") ||
+    this.headquarters.get("country")
+  ) {
+    return true;
+  }
+  return false;
+});
+
 const Developer = mongoose.model("Developer", DeveloperSchema);
 
 module.exports = Developer;
