@@ -120,14 +120,10 @@ router.get("/genres/new", GenreController.getNewGenreForm);
 router.post("/genres/new", GenreController.postNewGenre);
 
 // form to update existing genre
-router.get("/genres/:id/update", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/genres/:id/update", GenreController.getUpdateGenreForm);
 
 // submit game genre
-router.put("/genres/:id/update", (req, res) => {
-  res.send("placeholder");
-});
+router.put("/genres/:id/update", GenreController.postUpdatedGenre);
 
 // page to delete genre
 router.get("/genres/:id/delete", (req, res) => {

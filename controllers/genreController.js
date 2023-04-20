@@ -91,9 +91,63 @@ const postNewGenre = [
   },
 ];
 
+const getUpdateGenreForm = async (req, res, next) => {
+  try {
+    const genre = await Genre.findById(req.params.id).exec();
+    if (genre === null) {
+      const err = new Error("Genre does not exist");
+      err.status = 404;
+      next(err);
+    }
+    res.render("../views/genres/genreForm", {
+      title: `Update Genre ID ${req.params.id}`,
+      genre,
+      buttonLabel: "Update Genre",
+    });
+  } catch (err) {
+    err.status = 400;
+    next(err);
+  }
+};
+
+const postUpdatedGenre = [
+  body("name", "Genre name must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("description", "Description must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      const genre = await Genre.findById(req.params.id);
+      if (!errors.isEmpty()) {
+        res.render("../views/genres/genreForm", {
+          title: `Update Genre ID ${req.params.id}`,
+          genre,
+          buttonLabel: "Update Genre",
+          errors: errors.array(),
+        });
+      } else {
+        genre.name = req.body.name;
+        genre.description = req.body.description;
+        await genre.save();
+        res.redirect(genre.url);
+      }
+    } catch (err) {
+      err.status = 400;
+      next(err);
+    }
+  },
+];
+
 module.exports = {
   displayAllGenres,
   displayOneGenre,
   getNewGenreForm,
   postNewGenre,
+  getUpdateGenreForm,
+  postUpdatedGenre,
 };

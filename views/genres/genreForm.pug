@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
   h1= title 
-  form(action="", method="post") 
+  form(action=(title === "New Genre" ? "" : `/store/genres/${genre._id}/update?_method=PUT`), method="post") 
     label(for="name") Genre (required) :
       input#name(type="text", name="name", required, minlength=1, value=(genre ? genre.name : ""))
     label(for="description") Description (required) : 
