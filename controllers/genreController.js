@@ -123,6 +123,8 @@ const postUpdatedGenre = [
     try {
       const errors = validationResult(req);
       const genre = await Genre.findById(req.params.id);
+      genre.name = req.body.name;
+      genre.description = req.body.description;
       if (!errors.isEmpty()) {
         res.render("../views/genres/genreForm", {
           title: `Update Genre ID ${req.params.id}`,
@@ -131,8 +133,6 @@ const postUpdatedGenre = [
           errors: errors.array(),
         });
       } else {
-        genre.name = req.body.name;
-        genre.description = req.body.description;
         await genre.save();
         res.redirect(genre.url);
       }
