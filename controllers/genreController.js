@@ -122,7 +122,7 @@ const postUpdatedGenre = [
   async (req, res, next) => {
     try {
       const errors = validationResult(req);
-      const genre = await Genre.findById(req.params.id);
+      const genre = await Genre.findById(req.params.id).exec();
       genre.name = req.body.name;
       genre.description = req.body.description;
       if (!errors.isEmpty()) {
