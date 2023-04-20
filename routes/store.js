@@ -86,14 +86,10 @@ router.get("/consoles/new", ConsoleController.getNewConsoleForm);
 router.post("/consoles/new", ConsoleController.postNewConsole);
 
 // form to update existing console
-router.get("/consoles/:id/update", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/consoles/:id/update", ConsoleController.getUpdateConsoleForm);
 
 // submit game console
-router.put("/consoles/:id/update", (req, res) => {
-  res.send("placeholder");
-});
+router.put("/consoles/:id/update", ConsoleController.postUpdatedConsole);
 
 // page to delete console
 router.get("/consoles/:id/delete", (req, res) => {

@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
   h1= title 
-  form(action="", method="post") 
+  form(action=(title === "New Console" ? "" : `/store/consoles/${console._id}/update?_method=PUT`), method="post") 
     label(for="name") Console (required) : 
       input#name(type="text", name="name", required, minlength=1, value=(console ? console.name : ""))
     label(for="creator") Created By (required) : 

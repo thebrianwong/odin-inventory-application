@@ -105,9 +105,77 @@ const postNewConsole = [
   },
 ];
 
+const getUpdateConsoleForm = async (req, res, next) => {
+  try {
+    const consoleDoc = await Console.findById(req.params.id).exec();
+    if (consoleDoc === null) {
+      const err = new Error("Console does not exist");
+      err.status = 404;
+      next(err);
+    }
+    res.render("../views/consoles/consoleForm", {
+      title: `Update Console ID ${req.params.id}`,
+      console: consoleDoc,
+      buttonLabel: "Update Console",
+    });
+  } catch (err) {
+    err.status = 400;
+    next(err);
+  }
+};
+
+const postUpdatedConsole = [
+  body("name", "Console name must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("description", "Description must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("creator", "Creator must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("releaseDate", "Release date must be a valid date")
+    .optional({ values: "falsy" })
+    .isISO8601()
+    .toDate(),
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      const consoleDoc = await Console.findById(req.params.id).exec();
+      consoleDoc.name = req.body.name;
+      consoleDoc.description = req.body.description;
+      consoleDoc.creator = req.body.creator;
+      if (req.body.releaseDate !== "") {
+        consoleDoc.releaseDate = req.body.releaseDate;
+      } else {
+        consoleDoc.releaseDate = undefined;
+      }
+      if (!errors.isEmpty()) {
+        res.render("../views/consoles/consoleForm", {
+          title: `Update Console ID ${req.params.id}`,
+          console: consoleDoc,
+          buttonLabel: "Update Console",
+          errors: errors.array(),
+        });
+      } else {
+        await consoleDoc.save();
+        res.redirect(consoleDoc.url);
+      }
+    } catch (err) {
+      err.state = 404;
+      next(err);
+    }
+  },
+];
+
 module.exports = {
   displayAllConsoles,
   displayOneConsole,
   getNewConsoleForm,
   postNewConsole,
+  getUpdateConsoleForm,
+  postUpdatedConsole,
 };
