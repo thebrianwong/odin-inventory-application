@@ -77,7 +77,7 @@ const getNewGameForm = async (req, res, next) => {
       Console.find({}).sort({ name: 1 }).exec(),
       Genre.find({}).sort({ name: 1 }).exec(),
     ]);
-    res.render("../views/videoGames/videoGameForm", {
+    res.render("../views/videoGames/videoGamesForm", {
       title: "New Video Game",
       developerList,
       consoleList,
@@ -140,7 +140,7 @@ const postNewGame = [
           Console.find({}).sort({ name: 1 }).exec(),
           Genre.find({}).sort({ name: 1 }).exec(),
         ]);
-        res.render("../views/videoGames/videoGameForm", {
+        res.render("../views/videoGames/videoGamesForm", {
           title: "New Video Game",
           developerList,
           consoleList,
@@ -180,7 +180,7 @@ const getUpdateGameForm = async (req, res, next) => {
       err.status = 404;
       next(err);
     }
-    res.render("../views/videoGames/videoGameForm", {
+    res.render("../views/videoGames/videoGamesForm", {
       title: `Update Video Game ID ${req.params.id}`,
       developerList,
       consoleList,
@@ -249,7 +249,7 @@ const putUpdatedGame = [
           Console.find({}).sort({ name: 1 }).exec(),
           Genre.find({}).sort({ name: 1 }).exec(),
         ]);
-        res.render("../views/videoGames/videoGameForm", {
+        res.render("../views/videoGames/videoGamesForm", {
           title: `Update Video Game ID ${req.params.id}`,
           developerList,
           consoleList,

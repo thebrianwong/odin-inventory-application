@@ -47,7 +47,7 @@ const getOneDeveloper = async (req, res, next) => {
 };
 
 const getNewDeveloperForm = (req, res) => {
-  res.render("../views/developers/developerForm", {
+  res.render("../views/developers/developersForm", {
     title: "New Developer",
     buttonLabel: "Add Developer",
   });
@@ -106,7 +106,7 @@ const postNewDeveloper = [
       }
       const developer = new Developer(developerDetails);
       if (!errors.isEmpty()) {
-        res.render("../views/developers/developerForm", {
+        res.render("../views/developers/developersForm", {
           title: "New Developer",
           developer,
           buttonLabel: "Add Developer",
@@ -139,7 +139,7 @@ const getUpdateDeveloperForm = async (req, res, next) => {
       err.status = 404;
       next(err);
     }
-    res.render("../views/developers/developerForm", {
+    res.render("../views/developers/developersForm", {
       title: `Update Developer ID ${req.params.id}`,
       developer,
       buttonLabel: "Update Developer",
@@ -204,7 +204,7 @@ const putUpdatedDeveloper = [
         }
       }
       if (!errors.isEmpty()) {
-        res.render("../views/developers/developerForm", {
+        res.render("../views/developers/developersForm", {
           title: `Update Developer ID ${req.params.id}`,
           developer,
           buttonLabel: "Update Developer",

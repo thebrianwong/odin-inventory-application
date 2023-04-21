@@ -43,7 +43,7 @@ const getOneConsole = async (req, res, next) => {
 };
 
 const getNewConsoleForm = (req, res) => {
-  res.render("../views/consoles/consoleForm", {
+  res.render("../views/consoles/consolesForm", {
     title: "New Console",
     buttonLabel: "Add Console",
   });
@@ -79,7 +79,7 @@ const postNewConsole = [
       }
       const consoleDoc = new Console(consoleDetails);
       if (!errors.isEmpty()) {
-        res.render("../views/consoles/consoleForm", {
+        res.render("../views/consoles/consolesForm", {
           title: "New Console",
           consoleDoc,
           buttonLabel: "Add Console",
@@ -113,7 +113,7 @@ const getUpdateConsoleForm = async (req, res, next) => {
       err.status = 404;
       next(err);
     }
-    res.render("../views/consoles/consoleForm", {
+    res.render("../views/consoles/consolesForm", {
       title: `Update Console ID ${req.params.id}`,
       consoleDoc,
       buttonLabel: "Update Console",
@@ -154,7 +154,7 @@ const putUpdatedConsole = [
         consoleDoc.releaseDate = undefined;
       }
       if (!errors.isEmpty()) {
-        res.render("../views/consoles/consoleForm", {
+        res.render("../views/consoles/consolesForm", {
           title: `Update Console ID ${req.params.id}`,
           consoleDoc,
           buttonLabel: "Update Console",

@@ -43,7 +43,7 @@ const getOneGenre = async (req, res, next) => {
 };
 
 const getNewGenreForm = (req, res) => {
-  res.render("../views/genres/genreForm", {
+  res.render("../views/genres/genresForm", {
     title: "New Genre",
     buttonLabel: "Add Genre",
   });
@@ -66,7 +66,7 @@ const postNewGenre = [
         description: req.body.description,
       });
       if (!errors.isEmpty()) {
-        res.render("../views/genres/genreForm", {
+        res.render("../views/genres/genresForm", {
           title: "New Genre",
           genre,
           buttonLabel: "Add Genre",
@@ -99,7 +99,7 @@ const getUpdateGenreForm = async (req, res, next) => {
       err.status = 404;
       next(err);
     }
-    res.render("../views/genres/genreForm", {
+    res.render("../views/genres/genresForm", {
       title: `Update Genre ID ${req.params.id}`,
       genre,
       buttonLabel: "Update Genre",
@@ -126,7 +126,7 @@ const putUpdatedGenre = [
       genre.name = req.body.name;
       genre.description = req.body.description;
       if (!errors.isEmpty()) {
-        res.render("../views/genres/genreForm", {
+        res.render("../views/genres/genresForm", {
           title: `Update Genre ID ${req.params.id}`,
           genre,
           buttonLabel: "Update Genre",
