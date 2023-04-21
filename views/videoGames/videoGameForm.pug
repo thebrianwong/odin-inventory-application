@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
   h1= title 
-  form(action="", method="post") 
+  form(action=(title === "New Video Game" ? "" : `/store/videogames/${game._id}/update?_method=PUT`), method="post") 
     label(for="name") Video Game (required) : 
       input#name(type="text", name="name", required, minlength=1, value=(game ? game.name : ""))
     label(for="description") Description (required) : 

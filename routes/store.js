@@ -18,14 +18,10 @@ router.get("/videogames/new", VideoGameController.getNewGameForm);
 router.post("/videogames/new", VideoGameController.postNewGame);
 
 // form to update existing game
-router.get("/videogames/:id/update", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/videogames/:id/update", VideoGameController.getUpdateGameForm);
 
 // submit game updates
-router.put("/videogames/:id/update", (req, res) => {
-  res.send("placeholder");
-});
+router.put("/videogames/:id/update", VideoGameController.putUpdatedGame);
 
 // page to delete game
 router.get("/videogames/:id/delete", (req, res) => {
