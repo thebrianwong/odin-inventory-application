@@ -12,11 +12,11 @@ block content
     fieldset 
       legend Headquarters Location (optional)
       label(for="city") City:
-        input#city(type="text", name="city", value=(developer ? developer.headquarters.get("city") : "")) 
+        input#city(type="text", name="city", value=(developer && developer.headquarters ? developer.headquarters.get("city") : "")) 
       label(for="state") State: 
-        input#state(type="text", name="state", value=(developer ? developer.headquarters.get("state") : "")) 
+        input#state(type="text", name="state", value=(developer && developer.headquarters ? developer.headquarters.get("state") : "")) 
       label(for="country") Country: 
-        input#country(type="text", name="country", value=(developer ? developer.headquarters.get("country") : "")) 
+        input#country(type="text", name="country", value=(developer && developer.headquarters ? developer.headquarters.get("country") : "")) 
     input(type="submit", value=buttonLabel)
 
   a(href=(developer ? `/store/developers/${developer._id}` : "/store/developers"))

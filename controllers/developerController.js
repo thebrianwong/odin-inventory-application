@@ -35,6 +35,7 @@ const getOneDeveloper = async (req, res, next) => {
       err.status = 404;
       next(err);
     }
+    console.log(developer);
     res.render("../views/developers/developersOne", {
       title: req.params.id,
       developer,
@@ -185,13 +186,14 @@ const putUpdatedDeveloper = [
       const developer = await Developer.findById(req.params.id).exec();
       developer.name = req.body.name;
       developer.description = req.body.description;
-      developer.headquarters = {};
+      developer.headquarters = undefined;
       if (req.body.founded !== "") {
         developer.founded = req.body.founded;
       } else {
         developer.founded = undefined;
       }
       if (req.body.city || req.body.state || req.body.country) {
+        developer.headquarters = {};
         if (req.body.city) {
           developer.headquarters.set("city", req.body.city);
         }
