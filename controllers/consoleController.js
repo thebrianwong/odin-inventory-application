@@ -33,7 +33,7 @@ const getOneConsole = async (req, res, next) => {
     }
     res.render("../views/consoles/consolesOne", {
       title: req.params.id,
-      console: consoleDoc,
+      consoleDoc,
       consoleGames,
     });
   } catch (err) {
@@ -81,7 +81,7 @@ const postNewConsole = [
       if (!errors.isEmpty()) {
         res.render("../views/consoles/consoleForm", {
           title: "New Console",
-          console: consoleDoc,
+          consoleDoc,
           buttonLabel: "Add Console",
           errors: errors.array(),
         });
@@ -115,7 +115,7 @@ const getUpdateConsoleForm = async (req, res, next) => {
     }
     res.render("../views/consoles/consoleForm", {
       title: `Update Console ID ${req.params.id}`,
-      console: consoleDoc,
+      consoleDoc,
       buttonLabel: "Update Console",
     });
   } catch (err) {
@@ -156,7 +156,7 @@ const putUpdatedConsole = [
       if (!errors.isEmpty()) {
         res.render("../views/consoles/consoleForm", {
           title: `Update Console ID ${req.params.id}`,
-          console: consoleDoc,
+          consoleDoc,
           buttonLabel: "Update Console",
           errors: errors.array(),
         });

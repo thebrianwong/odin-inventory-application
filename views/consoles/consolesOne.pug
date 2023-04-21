@@ -2,21 +2,21 @@ extends ../layout
 
 block content 
   h1 Console ID #{title}
-  h2= console.name
-  if (console.releaseDate)
-    p Released in #{console.releaseDateDisplayFormatted} by #{console.creator}
+  h2= consoleDoc.name
+  if (consoleDoc.releaseDate)
+    p Released in #{consoleDoc.releaseDateDisplayFormatted} by #{consoleDoc.creator}
   else 
-    p By #{console.creator}
-  p= console.description 
+    p By #{consoleDoc.creator}
+  p= consoleDoc.description 
 
   if (consoleGames.length)
-    p Games Available on the #{console.name}:
+    p Games Available on the #{consoleDoc.name}:
     for game in consoleGames 
       a(href=game.url)
         button= game.name
 
-  a(href=`/store/videogames/new?console=${console._id}`)
-    button Add New Game Available on the #{console.name}
+  a(href=`/store/videogames/new?console=${consoleDoc._id}`)
+    button Add New Game Available on the #{consoleDoc.name}
 
-  a(href=`/store/consoles/${console._id}/update`)
+  a(href=`/store/consoles/${consoleDoc._id}/update`)
     button Update Console 

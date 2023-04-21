@@ -3,7 +3,7 @@ extends ../layout
 block content
   h1= title
   a(href="/store/consoles/new") Add New Console 
-  for console in consoleList
-    a(href=console.url)
-      button= console.name
-    p By #{console.creator}
+  for consoleDoc in consoleList
+    a(href=consoleDoc.url)
+      button= consoleDoc.name
+    p By #{consoleDoc.creator}
