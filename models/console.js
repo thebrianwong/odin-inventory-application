@@ -14,11 +14,25 @@ ConsoleSchema.virtual("url").get(function () {
 });
 
 ConsoleSchema.virtual("releaseDateDisplayFormatted").get(function () {
-  return this.releaseDate.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const date = this.releaseDate;
+  const year = date.getUTCFullYear();
+  const month = monthNames[date.getUTCMonth()];
+  const day = date.getUTCDate();
+  return `${month} ${day}, ${year}`;
 });
 
 ConsoleSchema.virtual("releaseDateFormFormatted").get(function () {
