@@ -24,14 +24,10 @@ router.get("/videogames/:id/update", VideoGameController.getUpdateGameForm);
 router.put("/videogames/:id/update", VideoGameController.putUpdatedGame);
 
 // page to delete game
-router.get("/videogames/:id/delete", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/videogames/:id/delete", VideoGameController.getDeleteGamePage);
 
 // delete game
-router.delete("/videogames/:id/delete", (req, res) => {
-  res.send("placeholder");
-});
+router.delete("/videogames/:id/delete", VideoGameController.deleteGame);
 
 // display all games
 router.get("/videogames", VideoGameController.getAllGames);

@@ -1,0 +1,12 @@
+extends ../layout
+
+block content 
+  h1= title
+
+  p= `Are you sure you want to delete ${game.name}?`
+  form(action=`/store/videogames/${game._id}/delete?_method=DELETE`, method="post") 
+    input(type="submit", value="Delete Video Game")
+
+
+  a(href=`/store/videogames/${game._id}`)
+    button Cancel 

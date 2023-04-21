@@ -290,6 +290,50 @@ const putUpdatedGame = [
   },
 ];
 
+const getDeleteGamePage = async (req, res, next) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Video Game ID is invalid");
+      err.status = 404;
+      next(err);
+    }
+    const game = await VideoGame.findById(req.params.id).exec();
+    if (game === null) {
+      const err = new Error("Game does not exist");
+      err.status = 404;
+      next(err);
+    }
+    res.render("../views/videoGames/videoGamesDelete", {
+      title: `Delete Video Game ID ${req.params.id}`,
+      game,
+    });
+  } catch (err) {
+    err.state = 404;
+    next(err);
+  }
+};
+
+const deleteGame = async (req, res, next) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Video Game ID is invalid");
+      err.status = 404;
+      next(err);
+    }
+    const game = await VideoGame.findById(req.params.id).exec();
+    if (game === null) {
+      const err = new Error("Game does not exist");
+      err.status = 404;
+      next(err);
+    }
+    await VideoGame.deleteOne({ _id: req.params.id });
+    res.redirect("/store/videogames");
+  } catch (err) {
+    err.state = 404;
+    next(err);
+  }
+};
+
 module.exports = {
   getStoreIndex,
   getAllGames,
@@ -298,4 +342,6 @@ module.exports = {
   postNewGame,
   getUpdateGameForm,
   putUpdatedGame,
+  getDeleteGamePage,
+  deleteGame,
 };
