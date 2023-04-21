@@ -10,7 +10,7 @@ block content
     label(for="description") Description (required) : 
       textarea#description(name="description", cols="30", rows="10", required, minlength=1)= consoleDoc ? consoleDoc.description : ""
     label(for="releaseDate") Released On (optional): 
-      input#releaseDate(type="date", name="releaseDate", value=(consoleDoc ? consoleDoc.releaseDateFormFormatted : "")) 
+      input#releaseDate(type="date", name="releaseDate", value=(consoleDoc && consoleDoc.releaseDate ? consoleDoc.releaseDateFormFormatted : "")) 
     input(type="submit", value=buttonLabel)
 
   a(href=(consoleDoc ? `/store/consoles/${consoleDoc._id}` : "/store/consoles"))
