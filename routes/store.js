@@ -112,14 +112,10 @@ router.get("/genres/:id/update", GenreController.getUpdateGenreForm);
 router.put("/genres/:id/update", GenreController.putUpdatedGenre);
 
 // page to delete genre
-router.get("/genres/:id/delete", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/genres/:id/delete", GenreController.getDeleteGenrePage);
 
 // delete genre
-router.delete("/genres/:id/delete", (req, res) => {
-  res.send("placeholder");
-});
+router.delete("/genres/:id/delete", GenreController.deleteGenre);
 
 // display all genres
 router.get("/genres", GenreController.getAllGenres);

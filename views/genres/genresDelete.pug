@@ -1,0 +1,17 @@
+extends ../layout
+
+block content 
+  h1= title
+  if (videoGamesWithGenre.length)
+    p= `The following game(s) have the ${genre.name} as a genre. Please delete them first.`
+    for game in videoGamesWithGenre
+      a(href=game.url)= game.name 
+
+  if (!videoGamesWithGenre.length)
+    p= `Are you sure you want to delete the ${genre.name} genre?`
+    form(action=`/store/genres/${genre._id}/delete?_method=DELETE`, method="post") 
+      input(type="submit", value="Delete Genre")
+
+
+  a(href=`/store/genres/${genre._id}`)
+    button Cancel 

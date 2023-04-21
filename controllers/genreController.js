@@ -164,6 +164,64 @@ const putUpdatedGenre = [
   },
 ];
 
+const getDeleteGenrePage = async (req, res, next) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Genre ID is invalid");
+      err.status = 404;
+      next(err);
+    }
+    const [genre, videoGamesWithGenre] = await Promise.all([
+      Genre.findById(req.params.id).exec(),
+      VideoGame.find({ genre: req.params.id }).exec(),
+    ]);
+    if (genre === null) {
+      const err = new Error("Genre does not exist");
+      err.status = 404;
+      next(err);
+    }
+    res.render("../views/genres/genresDelete", {
+      title: `Delete Genre ID ${req.params.id}`,
+      genre,
+      videoGamesWithGenre,
+    });
+  } catch (err) {
+    err.state = 404;
+    next(err);
+  }
+};
+
+const deleteGenre = async (req, res, next) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Genre ID is invalid");
+      err.status = 404;
+      next(err);
+    }
+    const [genre, videoGamesWithGenre] = await Promise.all([
+      Genre.findById(req.params.id).exec(),
+      VideoGame.find({ genre: req.params.id }).exec(),
+    ]);
+    if (genre === null) {
+      const err = new Error("Genre does not exist");
+      err.status = 404;
+      next(err);
+    }
+    if (videoGamesWithGenre.length) {
+      const err = new Error(
+        `Some game(s) still have ${genre.name} as a genre.`
+      );
+      err.status = 404;
+      next(err);
+    }
+    await Genre.deleteOne({ _id: req.params.id }).exec();
+    res.redirect("/store/genres");
+  } catch (err) {
+    err.state = 404;
+    next(err);
+  }
+};
+
 module.exports = {
   getAllGenres,
   getOneGenre,
@@ -171,4 +229,6 @@ module.exports = {
   postNewGenre,
   getUpdateGenreForm,
   putUpdatedGenre,
+  getDeleteGenrePage,
+  deleteGenre,
 };
