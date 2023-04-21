@@ -23,6 +23,11 @@ const getAllConsoles = async (req, res, next) => {
 
 const getOneConsole = async (req, res, next) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Console ID is invalid");
+      err.status = 404;
+      next(err);
+    }
     const [consoleDoc, consoleGames] = await Promise.all([
       Console.findById(req.params.id).exec(),
       VideoGame.find({ console: req.params.id }).sort({ name: 1 }).exec(),
@@ -108,6 +113,11 @@ const postNewConsole = [
 
 const getUpdateConsoleForm = async (req, res, next) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Console ID is invalid");
+      err.status = 404;
+      next(err);
+    }
     const consoleDoc = await Console.findById(req.params.id).exec();
     if (consoleDoc === null) {
       const err = new Error("Console does not exist");
@@ -144,8 +154,18 @@ const putUpdatedConsole = [
     .toDate(),
   async (req, res, next) => {
     try {
+      if (!mongoose.isValidObjectId(req.params.id)) {
+        const err = new Error("Console ID is invalid");
+        err.status = 404;
+        next(err);
+      }
       const errors = validationResult(req);
       const consoleDoc = await Console.findById(req.params.id).exec();
+      if (consoleDoc === null) {
+        const err = new Error("Console does not exist");
+        err.status = 404;
+        next(err);
+      }
       consoleDoc.name = req.body.name;
       consoleDoc.description = req.body.description;
       consoleDoc.creator = req.body.creator;

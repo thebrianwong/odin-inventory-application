@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const { mongoose } = require("mongoose");
 const VideoGame = require("../models/videoGame");
 const Developer = require("../models/developer");
 const Console = require("../models/console");
@@ -50,6 +51,11 @@ const getAllGames = async (req, res, next) => {
 
 const getOneGame = async (req, res, next) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Video Game ID is invalid");
+      err.status = 404;
+      next(err);
+    }
     const game = await VideoGame.findById(req.params.id)
       .populate("developer")
       .populate("console")
@@ -169,6 +175,11 @@ const postNewGame = [
 
 const getUpdateGameForm = async (req, res, next) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Video Game ID is invalid");
+      err.status = 404;
+      next(err);
+    }
     const [game, developerList, consoleList, genreList] = await Promise.all([
       VideoGame.findById(req.params.id).exec(),
       Developer.find({}).sort({ name: 1 }).exec(),
@@ -217,8 +228,18 @@ const putUpdatedGame = [
     .isInt({ min: 0, allow_leading_zeroes: false }),
   async (req, res, next) => {
     try {
+      if (!mongoose.isValidObjectId(req.params.id)) {
+        const err = new Error("Video Game ID is invalid");
+        err.status = 404;
+        next(err);
+      }
       const errors = validationResult(req);
       const game = await VideoGame.findById(req.params.id).exec();
+      if (game === null) {
+        const err = new Error("Game does not exist");
+        err.status = 404;
+        next(err);
+      }
       game.name = req.body.name;
       game.description = req.body.description;
       game.releaseDate = req.body.releaseDate;

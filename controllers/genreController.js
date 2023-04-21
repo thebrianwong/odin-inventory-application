@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const { mongoose } = require("mongoose");
 const Genre = require("../models/genre");
 const VideoGame = require("../models/videoGame");
 
@@ -22,6 +23,11 @@ const getAllGenres = async (req, res, next) => {
 
 const getOneGenre = async (req, res, next) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Genre ID is invalid");
+      err.status = 404;
+      next(err);
+    }
     const [genre, genreGames] = await Promise.all([
       Genre.findById(req.params.id).exec(),
       VideoGame.find({ genre: req.params.id }).sort({ name: 1 }).exec(),
@@ -93,6 +99,11 @@ const postNewGenre = [
 
 const getUpdateGenreForm = async (req, res, next) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Genre ID is invalid");
+      err.status = 404;
+      next(err);
+    }
     const genre = await Genre.findById(req.params.id).exec();
     if (genre === null) {
       const err = new Error("Genre does not exist");
@@ -121,8 +132,18 @@ const putUpdatedGenre = [
     .escape(),
   async (req, res, next) => {
     try {
+      if (!mongoose.isValidObjectId(req.params.id)) {
+        const err = new Error("Genre ID is invalid");
+        err.status = 404;
+        next(err);
+      }
       const errors = validationResult(req);
       const genre = await Genre.findById(req.params.id).exec();
+      if (genre === null) {
+        const err = new Error("Genre does not exist");
+        err.status = 404;
+        next(err);
+      }
       genre.name = req.body.name;
       genre.description = req.body.description;
       if (!errors.isEmpty()) {

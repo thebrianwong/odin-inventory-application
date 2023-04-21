@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const { mongoose } = require("mongoose");
 const Developer = require("../models/developer");
 const VideoGames = require("../models/videoGame");
 
@@ -22,6 +23,11 @@ const getAllDevelopers = async (req, res, next) => {
 
 const getOneDeveloper = async (req, res, next) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Developer ID is invalid");
+      err.status = 404;
+      next(err);
+    }
     const [developer, developerGames] = await Promise.all([
       Developer.findById(req.params.id).exec(),
       VideoGames.find({
@@ -133,6 +139,11 @@ const postNewDeveloper = [
 
 const getUpdateDeveloperForm = async (req, res, next) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Developer ID is invalid");
+      err.status = 404;
+      next(err);
+    }
     const developer = await Developer.findById(req.params.id).exec();
     if (developer === null) {
       const err = new Error("Developer does not exist");
@@ -181,8 +192,18 @@ const putUpdatedDeveloper = [
     .escape(),
   async (req, res, next) => {
     try {
+      if (!mongoose.isValidObjectId(req.params.id)) {
+        const err = new Error("Developer ID is invalid");
+        err.status = 404;
+        next(err);
+      }
       const errors = validationResult(req);
       const developer = await Developer.findById(req.params.id).exec();
+      if (developer === null) {
+        const err = new Error("Developer does not exist");
+        err.status = 404;
+        next(err);
+      }
       developer.name = req.body.name;
       developer.description = req.body.description;
       developer.headquarters = undefined;
