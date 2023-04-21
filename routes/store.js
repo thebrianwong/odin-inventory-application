@@ -57,14 +57,13 @@ router.get(
 router.put("/developers/:id/update", DeveloperController.putUpdatedDeveloper);
 
 // page to delete developer
-router.get("/developers/:id/delete", (req, res) => {
-  res.send("placeholder");
-});
+router.get(
+  "/developers/:id/delete",
+  DeveloperController.getDeleteDeveloperPage
+);
 
 // delete developer
-router.delete("/developers/:id/delete", (req, res) => {
-  res.send("placeholder");
-});
+router.delete("/developers/:id/delete", DeveloperController.deleteDeveloper);
 
 // display all developers
 router.get("/developers", DeveloperController.getAllDevelopers);

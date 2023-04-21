@@ -1,0 +1,17 @@
+extends ../layout
+
+block content 
+  h1= title 
+  if (videoGamesWithDeveloper.length)
+    p= `The following game(s) have ${developer.name} as a developer. Please delete them first.`
+    for game in videoGamesWithDeveloper
+      a(href=game.url)= game.name 
+
+  if (!videoGamesWithDeveloper.length)
+    p= `Are you sure you want to delete ${developer.name}?`
+    form(action=`/store/developers/${developer._id}/delete?_method=DELETE`, method="post") 
+      input(type="submit", value="Delete Developer")
+
+
+  a(href=`/store/developers/${developer._id}`)
+    button Cancel 
