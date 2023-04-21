@@ -10,7 +10,7 @@ block content
     label(for="description") Description (required) : 
       textarea#description(name="description", cols="30", rows="10", required, minlength=1)= console ? console.description : ""
     label(for="releaseDate") Released On (optional): 
-      input#releaseDate(type="date", name="releaseDate", value=(console ? console.releaseDate : "")) 
+      input#releaseDate(type="date", name="releaseDate", value=(console ? console.releaseDateFormFormatted : "")) 
     input(type="submit", value=buttonLabel)
 
   if (errors)

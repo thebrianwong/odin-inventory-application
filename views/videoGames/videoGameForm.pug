@@ -8,7 +8,7 @@ block content
     label(for="description") Description (required) : 
       textarea#description(name="description", cols="30", rows="10", required, minlength=1)= game ? game.description : ""
     label(for="releaseDate") Release Date (required) : 
-      input#releaseDate(type="date", name="releaseDate", required, value=(game ? game.releaseDate : "")) 
+      input#releaseDate(type="date", name="releaseDate", required, value=(game ? game.releaseDateFormFormatted : "")) 
 
     label(for="price") Price (optional) :
       input#price(type="number", name="price", min=0, step=0.01, value=(game ? game.price : ""))

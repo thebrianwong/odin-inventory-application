@@ -29,6 +29,28 @@ VideoGameSchema.virtual("releaseDateDisplayFormatted").get(function () {
   });
 });
 
+VideoGameSchema.virtual("releaseDateFormFormatted").get(function () {
+  const date = this.releaseDate;
+  const year = date.getUTCFullYear();
+  const month = (() => {
+    if (date.getUTCMonth() < 9) {
+      return `0${date.getUTCMonth() + 1}`;
+    }
+    if (date.getUTCMonth() === 9) {
+      return "10";
+    }
+    return (date.getUTCMonth() + 1).toString();
+  })();
+  const day = (() => {
+    if (date.getUTCDate() < 10) {
+      return `0${date.getUTCDate()}`;
+    }
+    return date.getUTCDate();
+  })();
+  console.log(`${year}-${month}-${day}`);
+  return `${year}-${month}-${day}`;
+});
+
 const VideoGame = mongoose.model("VideoGame", VideoGameSchema);
 
 module.exports = VideoGame;
