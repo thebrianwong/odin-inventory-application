@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const { mongoose } = require("mongoose");
 const Console = require("../models/console");
 const VideoGame = require("../models/videoGame");
 
@@ -171,6 +172,64 @@ const putUpdatedConsole = [
   },
 ];
 
+const getDeleteConsolePage = async (req, res, next) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Console ID is invalid");
+      err.status = 404;
+      next(err);
+    }
+    const [consoleDoc, videoGamesWithConsole] = await Promise.all([
+      Console.findById(req.params.id).exec(),
+      VideoGame.find({ console: req.params.id }).exec(),
+    ]);
+    if (consoleDoc === null) {
+      const err = new Error("Console does not exist");
+      err.status = 404;
+      next(err);
+    }
+    res.render("../views/consoles/consolesDelete", {
+      title: `Delete Console ID ${req.params.id}`,
+      consoleDoc,
+      videoGamesWithConsole,
+    });
+  } catch (err) {
+    err.state = 404;
+    next(err);
+  }
+};
+
+const deleteConsole = async (req, res, next) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error("Console ID is invalid");
+      err.status = 404;
+      next(err);
+    }
+    const [consoleDoc, videoGamesWithConsole] = await Promise.all([
+      Console.findById(req.params.id).exec(),
+      VideoGame.find({ console: req.params.id }).exec(),
+    ]);
+    if (consoleDoc === null) {
+      const err = new Error("Console does not exist");
+      err.status = 404;
+      next(err);
+    }
+    if (videoGamesWithConsole.length) {
+      const err = new Error(
+        `Some game(s) still have the ${consoleDoc.name} as a console.`
+      );
+      err.status = 404;
+      next(err);
+    }
+    await Console.deleteOne({ _id: req.params.id }).exec();
+    res.redirect("/store/consoles");
+  } catch (err) {
+    err.state = 404;
+    next(err);
+  }
+};
+
 module.exports = {
   getAllConsoles,
   getOneConsole,
@@ -178,4 +237,6 @@ module.exports = {
   postNewConsole,
   getUpdateConsoleForm,
   putUpdatedConsole,
+  getDeleteConsolePage,
+  deleteConsole,
 };

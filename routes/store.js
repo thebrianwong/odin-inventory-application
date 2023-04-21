@@ -87,14 +87,10 @@ router.get("/consoles/:id/update", ConsoleController.getUpdateConsoleForm);
 router.put("/consoles/:id/update", ConsoleController.putUpdatedConsole);
 
 // page to delete console
-router.get("/consoles/:id/delete", (req, res) => {
-  res.send("placeholder");
-});
+router.get("/consoles/:id/delete", ConsoleController.getDeleteConsolePage);
 
 // delete console
-router.delete("/consoles/:id/delete", (req, res) => {
-  res.send("placeholder");
-});
+router.delete("/consoles/:id/delete", ConsoleController.deleteConsole);
 
 // display all consoles
 router.get("/consoles", ConsoleController.getAllConsoles);
