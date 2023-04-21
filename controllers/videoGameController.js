@@ -61,7 +61,7 @@ const getOneGame = async (req, res, next) => {
       next(err);
     }
     res.render("../views/videoGames/videoGamesOne", {
-      title: req.params.id,
+      title: `Video Game ID ${req.params.id}`,
       game,
     });
   } catch (err) {
