@@ -61,7 +61,6 @@ VideoGameSchema.virtual("releaseDateFormFormatted").get(function () {
     }
     return date.getUTCDate();
   })();
-  console.log(`${year}-${month}-${day}`);
   return `${year}-${month}-${day}`;
 });
 

@@ -35,7 +35,6 @@ const getOneDeveloper = async (req, res, next) => {
       err.status = 404;
       next(err);
     }
-    console.log(developer);
     res.render("../views/developers/developersOne", {
       title: req.params.id,
       developer,
