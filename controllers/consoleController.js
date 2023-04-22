@@ -4,6 +4,7 @@ const multer = require("multer");
 const Console = require("../models/console");
 const VideoGame = require("../models/videoGame");
 const multerStorage = require("../multerStorage");
+const deleteOldImage = require("../deleteOldImage");
 
 const getAllConsoles = async (req, res, next) => {
   try {
@@ -85,6 +86,9 @@ const postNewConsole = [
       if (req.body.releaseDate) {
         consoleDetails.releaseDate = req.body.releaseDate;
       }
+      if (req.file) {
+        consoleDetails.imageURL = req.file.filename;
+      }
       const consoleDoc = new Console(consoleDetails);
       if (!errors.isEmpty()) {
         res.render("../views/consoles/consolesForm", {
@@ -156,6 +160,7 @@ const putUpdatedConsole = [
     .toDate(),
   async (req, res, next) => {
     try {
+      console.log(req.body);
       if (!mongoose.isValidObjectId(req.params.id)) {
         const err = new Error("Console ID is invalid");
         err.status = 404;
@@ -175,6 +180,18 @@ const putUpdatedConsole = [
         consoleDoc.releaseDate = req.body.releaseDate;
       } else {
         consoleDoc.releaseDate = undefined;
+      }
+      if (req.body.delete && consoleDoc.imageURL) {
+        deleteOldImage("consoles", consoleDoc.imageURL);
+        if (req.file) {
+          deleteOldImage("consoles", req.file.filename);
+        }
+        consoleDoc.imageURL = undefined;
+      } else if (req.file) {
+        if (consoleDoc.imageURL) {
+          deleteOldImage("consoles", consoleDoc.imageURL);
+        }
+        consoleDoc.imageURL = req.file.filename;
       }
       if (!errors.isEmpty()) {
         res.render("../views/consoles/consolesForm", {

@@ -83,7 +83,11 @@ router.post(
 router.get("/consoles/:id/update", ConsoleController.getUpdateConsoleForm);
 
 // submit game console
-router.put("/consoles/:id/update", ConsoleController.putUpdatedConsole);
+router.put(
+  "/consoles/:id/update",
+  ConsoleController.consoleUpload.single("file"),
+  ConsoleController.putUpdatedConsole
+);
 
 // page to delete console
 router.get("/consoles/:id/delete", ConsoleController.getDeleteConsolePage);

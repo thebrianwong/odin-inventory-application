@@ -15,6 +15,9 @@ block content
       a(href=game.url)
         button= game.name
 
+  if (consoleDoc.imageURL)
+    img(src=`/data/uploads/consoles/${consoleDoc.imageURL}`, alt=`Official display of the ${consoleDoc.name}`)
+
   a(href=`/store/videogames/new?console=${consoleDoc._id}`)
     button Add New Game Available on the #{consoleDoc.name}
 
