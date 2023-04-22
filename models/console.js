@@ -7,6 +7,7 @@ const ConsoleSchema = new Schema({
   creator: { type: String, required: true },
   description: { type: String, required: true },
   releaseDate: Date,
+  imageURL: String,
 });
 
 ConsoleSchema.virtual("url").get(function () {
