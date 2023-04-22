@@ -1,7 +1,9 @@
 const { body, validationResult } = require("express-validator");
 const { mongoose } = require("mongoose");
+const multer = require("multer");
 const Console = require("../models/console");
 const VideoGame = require("../models/videoGame");
+const multerStorage = require("../multerStorage");
 
 const getAllConsoles = async (req, res, next) => {
   try {
@@ -250,6 +252,9 @@ const deleteConsole = async (req, res, next) => {
   }
 };
 
+const consoleStorage = multerStorage("consoles");
+const consoleUpload = multer({ storage: consoleStorage });
+
 module.exports = {
   getAllConsoles,
   getOneConsole,
@@ -259,4 +264,5 @@ module.exports = {
   putUpdatedConsole,
   getDeleteConsolePage,
   deleteConsole,
+  consoleUpload,
 };

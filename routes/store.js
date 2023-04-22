@@ -73,7 +73,11 @@ router.get("/developers/:id", DeveloperController.getOneDeveloper);
 router.get("/consoles/new", ConsoleController.getNewConsoleForm);
 
 // submit new console
-router.post("/consoles/new", ConsoleController.postNewConsole);
+router.post(
+  "/consoles/new",
+  ConsoleController.consoleUpload.single("file"),
+  ConsoleController.postNewConsole
+);
 
 // form to update existing console
 router.get("/consoles/:id/update", ConsoleController.getUpdateConsoleForm);

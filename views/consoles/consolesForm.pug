@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
   h1= title 
-  form(action=(title === "New Console" ? "" : `/store/consoles/${consoleDoc._id}/update?_method=PUT`), method="post") 
+  form(action=(title === "New Console" ? "" : `/store/consoles/${consoleDoc._id}/update?_method=PUT`), method="post", enctype="multipart/form-data") 
     label(for="name") Console (required) : 
       input#name(type="text", name="name", required, minlength=1, value=(consoleDoc ? consoleDoc.name : ""))
     label(for="creator") Created By (required) : 
@@ -11,6 +11,10 @@ block content
       textarea#description(name="description", cols="30", rows="10", required, minlength=1)= consoleDoc ? consoleDoc.description : ""
     label(for="releaseDate") Released On (optional): 
       input#releaseDate(type="date", name="releaseDate", value=(consoleDoc && consoleDoc.releaseDate ? consoleDoc.releaseDateFormFormatted : "")) 
+
+    label(for="file") file test 
+      input#file(type="file", name="file") 
+
     input(type="submit", value=buttonLabel)
 
   a(href=(consoleDoc ? `/store/consoles/${consoleDoc._id}` : "/store/consoles"))
