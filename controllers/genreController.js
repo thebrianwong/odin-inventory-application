@@ -1,7 +1,10 @@
 const { body, validationResult } = require("express-validator");
 const { mongoose } = require("mongoose");
+const multer = require("multer");
 const Genre = require("../models/genre");
 const VideoGame = require("../models/videoGame");
+const { multerStorage, multerFilter } = require("../multerUtils");
+const deleteOldImage = require("../deleteOldImage");
 
 const getAllGenres = async (req, res, next) => {
   try {
@@ -67,10 +70,14 @@ const postNewGenre = [
   async (req, res, next) => {
     try {
       const errors = validationResult(req);
-      const genre = new Genre({
+      const genreDetails = {
         name: req.body.name,
         description: req.body.description,
-      });
+      };
+      if (req.file) {
+        genreDetails.imageURL = req.file.filename;
+      }
+      const genre = new Genre(genreDetails);
       if (!errors.isEmpty()) {
         res.render("../views/genres/genresForm", {
           title: "New Genre",
@@ -146,6 +153,18 @@ const putUpdatedGenre = [
       }
       genre.name = req.body.name;
       genre.description = req.body.description;
+      if (req.body.delete && genre.imageURL) {
+        deleteOldImage("genres", genre.imageURL);
+        if (req.file) {
+          deleteOldImage("genres", req.file.filename);
+        }
+        genre.imageURL = undefined;
+      } else if (req.file) {
+        if (genre.imageURL) {
+          deleteOldImage("genres", genre.imageURL);
+        }
+        genre.imageURL = req.file.filename;
+      }
       if (!errors.isEmpty()) {
         res.render("../views/genres/genresForm", {
           title: `Update Genre ID ${req.params.id}`,
@@ -214,12 +233,30 @@ const deleteGenre = async (req, res, next) => {
       err.status = 404;
       next(err);
     }
+    if (genre.imageURL) {
+      deleteOldImage("genres", genre.imageURL);
+    }
     await Genre.deleteOne({ _id: req.params.id }).exec();
     res.redirect("/store/genres");
   } catch (err) {
     err.state = 404;
     next(err);
   }
+};
+
+const handleFileUpload = (req, res, next) => {
+  const genreStorage = multerStorage("genres");
+  const genreUpload = multer({
+    storage: genreStorage,
+    fileFilter: multerFilter,
+  }).single("file");
+  genreUpload(req, res, (err) => {
+    if (err) {
+      err.status = 400;
+      next(err);
+    }
+    next();
+  });
 };
 
 module.exports = {
@@ -231,4 +268,5 @@ module.exports = {
   putUpdatedGenre,
   getDeleteGenrePage,
   deleteGenre,
+  handleFileUpload,
 };

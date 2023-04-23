@@ -2,11 +2,19 @@ extends ../layout
 
 block content 
   h1= title 
-  form(action=(title === "New Genre" ? "" : `/store/genres/${genre._id}/update?_method=PUT`), method="post") 
+  form(action=(title === "New Genre" ? "" : `/store/genres/${genre._id}/update?_method=PUT`), method="post", enctype="multipart/form-data") 
     label(for="name") Genre (required) :
       input#name(type="text", name="name", required, minlength=1, value=(genre ? genre.name : ""))
     label(for="description") Description (required) : 
       textarea#description(name="description", cols="30", rows="10", required, minlength=1)= genre ? genre.description : ""
+
+    label(for="file") Upload Image 
+      input#file(type="file", name="file", accept="image/png, image/jpeg") 
+
+    if (genre && genre.imageURL)
+      label(for="delete") Delete Image (includes uploaded image)
+        input#delete(type="checkbox", name="delete")
+
     input(type="submit", value=buttonLabel)
 
   a(href=(genre ? `/store/genres/${genre._id}` : "/store/genres"))

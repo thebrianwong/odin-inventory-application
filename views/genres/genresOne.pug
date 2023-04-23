@@ -11,6 +11,9 @@ block content
       a(href=game.url)
         button= game.name 
 
+  if (genre.imageURL)
+    img(src=`/data/uploads/genres/${genre.imageURL}`, alt=`Visual depiction of the ${genre.name} genre`)
+
   a(href=`/store/videogames/new?genre=${genre._id}`)
     button Add New #{genre.name} Game
 

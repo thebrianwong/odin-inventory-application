@@ -115,13 +115,21 @@ router.get("/consoles/:id", ConsoleController.getOneConsole);
 router.get("/genres/new", GenreController.getNewGenreForm);
 
 // submit new genre
-router.post("/genres/new", GenreController.postNewGenre);
+router.post(
+  "/genres/new",
+  GenreController.handleFileUpload,
+  GenreController.postNewGenre
+);
 
 // form to update existing genre
 router.get("/genres/:id/update", GenreController.getUpdateGenreForm);
 
 // submit game genre
-router.put("/genres/:id/update", GenreController.putUpdatedGenre);
+router.put(
+  "/genres/:id/update",
+  GenreController.handleFileUpload,
+  GenreController.putUpdatedGenre
+);
 
 // page to delete genre
 router.get("/genres/:id/delete", GenreController.getDeleteGenrePage);
