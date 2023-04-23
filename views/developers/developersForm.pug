@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
   h1= title 
-  form(action=(title === "New Developer" ? "" : `/store/developers/${developer._id}/update?_method=PUT`), method="post") 
+  form(action=(title === "New Developer" ? "" : `/store/developers/${developer._id}/update?_method=PUT`), method="post", enctype="multipart/form-data") 
     label(for="name") Developer (required) : 
       input#name(type="text", name="name", required, minlength=1, value=(developer ? developer.name : ""))
     label(for="description") Description (required) : 
@@ -17,6 +17,14 @@ block content
         input#state(type="text", name="state", value=(developer && developer.headquarters ? developer.headquarters.get("state") : "")) 
       label(for="country") Country: 
         input#country(type="text", name="country", value=(developer && developer.headquarters ? developer.headquarters.get("country") : "")) 
+
+    label(for="file") Upload Image 
+      input#file(type="file", name="file", accept="image/png, image/jpeg") 
+
+    if (developer && developer.imageURL)
+      label(for="delete") Delete Image (includes uploaded image)
+        input#delete(type="checkbox", name="delete")
+
     input(type="submit", value=buttonLabel)
 
   a(href=(developer ? `/store/developers/${developer._id}` : "/store/developers"))

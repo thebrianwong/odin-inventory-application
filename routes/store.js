@@ -41,7 +41,11 @@ router.get("/videogames/:id", VideoGameController.getOneGame);
 router.get("/developers/new", DeveloperController.getNewDeveloperForm);
 
 // submit new developer
-router.post("/developers/new", DeveloperController.postNewDeveloper);
+router.post(
+  "/developers/new",
+  DeveloperController.handleFileUpload,
+  DeveloperController.postNewDeveloper
+);
 
 // form to update existing developer
 router.get(
@@ -50,7 +54,11 @@ router.get(
 );
 
 // submit developer updates
-router.put("/developers/:id/update", DeveloperController.putUpdatedDeveloper);
+router.put(
+  "/developers/:id/update",
+  DeveloperController.handleFileUpload,
+  DeveloperController.putUpdatedDeveloper
+);
 
 // page to delete developer
 router.get(

@@ -1,7 +1,10 @@
 const { body, validationResult } = require("express-validator");
 const { mongoose } = require("mongoose");
+const multer = require("multer");
 const Developer = require("../models/developer");
 const VideoGames = require("../models/videoGame");
+const { multerStorage, multerFilter } = require("../multerUtils");
+const deleteOldImage = require("../deleteOldImage");
 
 const getAllDevelopers = async (req, res, next) => {
   try {
@@ -109,6 +112,9 @@ const postNewDeveloper = [
         if (req.body.country) {
           developerDetails.headquarters.country = req.body.country;
         }
+      }
+      if (req.file) {
+        developerDetails.imageURL = req.file.filename;
       }
       const developer = new Developer(developerDetails);
       if (!errors.isEmpty()) {
@@ -224,6 +230,18 @@ const putUpdatedDeveloper = [
           developer.headquarters.set("country", req.body.country);
         }
       }
+      if (req.body.delete && developer.imageURL) {
+        deleteOldImage("developers", developer.imageURL);
+        if (req.file) {
+          deleteOldImage("developers", req.file.filename);
+        }
+        developer.imageURL = undefined;
+      } else if (req.file) {
+        if (developer.imageURL) {
+          deleteOldImage("developers", developer.imageURL);
+        }
+        developer.imageURL = req.file.filename;
+      }
       if (!errors.isEmpty()) {
         res.render("../views/developers/developersForm", {
           title: `Update Developer ID ${req.params.id}`,
@@ -301,6 +319,21 @@ const deleteDeveloper = async (req, res, next) => {
   }
 };
 
+const handleFileUpload = (req, res, next) => {
+  const developerStorage = multerStorage("developers");
+  const developerUpload = multer({
+    storage: developerStorage,
+    fileFilter: multerFilter,
+  }).single("file");
+  developerUpload(req, res, (err) => {
+    if (err) {
+      err.status = 400;
+      next(err);
+    }
+    next();
+  });
+};
+
 module.exports = {
   getAllDevelopers,
   getOneDeveloper,
@@ -310,4 +343,5 @@ module.exports = {
   putUpdatedDeveloper,
   getDeleteDeveloperPage,
   deleteDeveloper,
+  handleFileUpload,
 };

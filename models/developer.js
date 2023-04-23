@@ -7,6 +7,7 @@ const DeveloperSchema = new Schema({
   description: { type: String, required: true },
   founded: Number,
   headquarters: { type: Map, of: String },
+  imageURL: String,
 });
 
 DeveloperSchema.virtual("url").get(function () {

@@ -9,12 +9,14 @@ block content
     p Headquartered in #{developer.headquartersFormatted}
   p=developer.description
 
+  if (developer.imageURL)
+    img(src=`/data/uploads/developers/${developer.imageURL}`, alt=`Official display of the ${developer.name}`)
+
   if (developerGames.length)
     p Games Developed by #{developer.name}:
     for game in developerGames 
       a(href=game.url) 
         button=game.name
-
 
   a(href=`/store/videogames/new?developer=${developer._id}`)
     button Add New Game Developed by #{developer.name}
