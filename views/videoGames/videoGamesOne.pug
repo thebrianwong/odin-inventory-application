@@ -5,6 +5,10 @@ block content
   h2= game.name 
   p Developed by 
     a(href=game.developer.url)= game.developer.name
+
+  if (game.imageURL)
+    img(src=`/data/uploads/videoGames/${game.imageURL}`, alt=`Official box art ${game.name}`)
+
   p Originally released on #{game.releaseDateDisplayFormatted}
   p= game.price !== undefined ? `Price: ${game.priceFormatted}` : "Price Unavailable"
   p= game.copies !== undefined ? `Copies in stock: ${game.copies}` : "Number of Copies Unavailable"

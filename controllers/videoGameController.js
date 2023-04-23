@@ -1,9 +1,12 @@
 const { body, validationResult } = require("express-validator");
 const { mongoose } = require("mongoose");
+const multer = require("multer");
 const VideoGame = require("../models/videoGame");
 const Developer = require("../models/developer");
 const Console = require("../models/console");
 const Genre = require("../models/genre");
+const { multerStorage, multerFilter } = require("../multerUtils");
+const deleteOldImage = require("../deleteOldImage");
 
 const getStoreIndex = async (req, res, next) => {
   try {
@@ -139,6 +142,9 @@ const postNewGame = [
       if (req.body.copies) {
         gameDetails.copies = req.body.copies;
       }
+      if (req.file) {
+        gameDetails.imageURL = req.file.filename;
+      }
       const game = new VideoGame(gameDetails);
       if (!errors.isEmpty()) {
         const [developerList, consoleList, genreList] = await Promise.all([
@@ -264,6 +270,18 @@ const putUpdatedGame = [
       } else {
         game.copies = undefined;
       }
+      if (req.body.delete && game.imageURL) {
+        deleteOldImage("videoGames", game.imageURL);
+        if (req.file) {
+          deleteOldImage("videoGames", req.file.filename);
+        }
+        game.imageURL = undefined;
+      } else if (req.file) {
+        if (game.imageURL) {
+          deleteOldImage("videoGames", game.imageURL);
+        }
+        game.imageURL = req.file.filename;
+      }
       if (!errors.isEmpty()) {
         const [developerList, consoleList, genreList] = await Promise.all([
           Developer.find({}).sort({ name: 1 }).exec(),
@@ -326,12 +344,30 @@ const deleteGame = async (req, res, next) => {
       err.status = 404;
       next(err);
     }
+    if (game.imageURL) {
+      deleteOldImage("videoGames", game.imageURL);
+    }
     await VideoGame.deleteOne({ _id: req.params.id });
     res.redirect("/store/videogames");
   } catch (err) {
     err.state = 404;
     next(err);
   }
+};
+
+const handleFileUpload = (req, res, next) => {
+  const gameStorage = multerStorage("videoGames");
+  const gameUpload = multer({
+    storage: gameStorage,
+    fileFilter: multerFilter,
+  }).single("file");
+  gameUpload(req, res, (err) => {
+    if (err) {
+      err.status = 400;
+      next(err);
+    }
+    next();
+  });
 };
 
 module.exports = {
@@ -344,4 +380,5 @@ module.exports = {
   putUpdatedGame,
   getDeleteGamePage,
   deleteGame,
+  handleFileUpload,
 };

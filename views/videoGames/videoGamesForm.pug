@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
   h1= title 
-  form(action=(title === "New Video Game" ? "" : `/store/videogames/${game._id}/update?_method=PUT`), method="post") 
+  form(action=(title === "New Video Game" ? "" : `/store/videogames/${game._id}/update?_method=PUT`), method="post", enctype="multipart/form-data") 
     label(for="name") Video Game (required) : 
       input#name(type="text", name="name", required, minlength=1, value=(game ? game.name : ""))
     label(for="description") Description (required) : 
@@ -68,6 +68,13 @@ block content
                 : false)
             : false)
           )
+
+    label(for="file") Upload Image 
+      input#file(type="file", name="file", accept="image/png, image/jpeg") 
+
+    if (game && game.imageURL)
+      label(for="delete") Delete Image (includes uploaded image)
+        input#delete(type="checkbox", name="delete")
 
     input(type="submit", value=buttonLabel)
 

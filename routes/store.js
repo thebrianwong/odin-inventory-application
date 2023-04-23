@@ -15,13 +15,21 @@ router.get("/", VideoGameController.getStoreIndex);
 router.get("/videogames/new", VideoGameController.getNewGameForm);
 
 // submit new game
-router.post("/videogames/new", VideoGameController.postNewGame);
+router.post(
+  "/videogames/new",
+  VideoGameController.handleFileUpload,
+  VideoGameController.postNewGame
+);
 
 // form to update existing game
 router.get("/videogames/:id/update", VideoGameController.getUpdateGameForm);
 
 // submit game updates
-router.put("/videogames/:id/update", VideoGameController.putUpdatedGame);
+router.put(
+  "/videogames/:id/update",
+  VideoGameController.handleFileUpload,
+  VideoGameController.putUpdatedGame
+);
 
 // page to delete game
 router.get("/videogames/:id/delete", VideoGameController.getDeleteGamePage);

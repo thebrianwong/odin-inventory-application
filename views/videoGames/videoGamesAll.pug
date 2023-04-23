@@ -4,8 +4,15 @@ block content
   h1= title 
   a(href="/store/videogames/new") Add New Game
   for game in gameList 
-    a(href=game.url) 
-      button= game.name
+    if (game.imageURL)
+      a(href=game.url)
+        button 
+          img(src=`/data/uploads/videoGames/${game.imageURL}`, alt=`Official box art ${game.name}`)
+      p= game.name
+    else
+      a(href=game.url)
+        button= game.name
+
     p= game.developer.name
     if (game.genre.length)
       for genre in game.genre 

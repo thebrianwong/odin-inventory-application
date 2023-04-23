@@ -11,6 +11,7 @@ const VideoGameSchema = new Schema({
   genre: [{ type: Schema.Types.ObjectId, ref: "Genre", default: null }],
   price: Number,
   copies: Number,
+  imageURL: String,
 });
 
 VideoGameSchema.virtual("url").get(function () {
