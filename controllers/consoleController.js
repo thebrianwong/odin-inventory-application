@@ -158,6 +158,9 @@ const putUpdatedConsole = [
     .optional({ values: "falsy" })
     .isISO8601()
     .toDate(),
+  body("password", "Password is incorrect").custom(
+    (value) => value === process.env.PASSWORD
+  ),
   async (req, res, next) => {
     try {
       if (!mongoose.isValidObjectId(req.params.id)) {
@@ -180,19 +183,10 @@ const putUpdatedConsole = [
       } else {
         consoleDoc.releaseDate = undefined;
       }
-      if (req.body.delete && consoleDoc.imageURL) {
-        deleteOldImage("consoles", consoleDoc.imageURL);
+      if (!errors.isEmpty()) {
         if (req.file) {
           deleteOldImage("consoles", req.file.filename);
         }
-        consoleDoc.imageURL = undefined;
-      } else if (req.file) {
-        if (consoleDoc.imageURL) {
-          deleteOldImage("consoles", consoleDoc.imageURL);
-        }
-        consoleDoc.imageURL = req.file.filename;
-      }
-      if (!errors.isEmpty()) {
         res.render("../views/consoles/consolesForm", {
           title: `Update Console ID ${req.params.id}`,
           consoleDoc,
@@ -200,6 +194,18 @@ const putUpdatedConsole = [
           errors: errors.array(),
         });
       } else {
+        if (req.body.delete && consoleDoc.imageURL) {
+          deleteOldImage("consoles", consoleDoc.imageURL);
+          if (req.file) {
+            deleteOldImage("consoles", req.file.filename);
+          }
+          consoleDoc.imageURL = undefined;
+        } else if (req.file) {
+          if (consoleDoc.imageURL) {
+            deleteOldImage("consoles", consoleDoc.imageURL);
+          }
+          consoleDoc.imageURL = req.file.filename;
+        }
         await consoleDoc.save();
         res.redirect(consoleDoc.url);
       }
@@ -237,39 +243,54 @@ const getDeleteConsolePage = async (req, res, next) => {
   }
 };
 
-const deleteConsole = async (req, res, next) => {
-  try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Console ID is invalid");
-      err.status = 404;
+const deleteConsole = [
+  body("password", "Password is incorrect").custom(
+    (value) => value === process.env.PASSWORD
+  ),
+  async (req, res, next) => {
+    try {
+      if (!mongoose.isValidObjectId(req.params.id)) {
+        const err = new Error("Console ID is invalid");
+        err.status = 404;
+        next(err);
+      }
+      const errors = validationResult(req);
+      const [consoleDoc, videoGamesWithConsole] = await Promise.all([
+        Console.findById(req.params.id).exec(),
+        VideoGame.find({ console: req.params.id }).exec(),
+      ]);
+      if (consoleDoc === null) {
+        const err = new Error("Console does not exist");
+        err.status = 404;
+        next(err);
+      }
+      if (videoGamesWithConsole.length) {
+        const err = new Error(
+          `Some game(s) still have the ${consoleDoc.name} as a console.`
+        );
+        err.status = 404;
+        next(err);
+      }
+      if (!errors.isEmpty()) {
+        res.render("../views/consoles/consolesDelete", {
+          title: `Delete Console ID ${req.params.id}`,
+          consoleDoc,
+          videoGamesWithConsole,
+          errors: errors.array(),
+        });
+      } else {
+        if (consoleDoc.imageURL) {
+          deleteOldImage("consoles", consoleDoc.imageURL);
+        }
+        await Console.deleteOne({ _id: req.params.id }).exec();
+        res.redirect("/store/consoles");
+      }
+    } catch (err) {
+      err.state = 404;
       next(err);
     }
-    const [consoleDoc, videoGamesWithConsole] = await Promise.all([
-      Console.findById(req.params.id).exec(),
-      VideoGame.find({ console: req.params.id }).exec(),
-    ]);
-    if (consoleDoc === null) {
-      const err = new Error("Console does not exist");
-      err.status = 404;
-      next(err);
-    }
-    if (videoGamesWithConsole.length) {
-      const err = new Error(
-        `Some game(s) still have the ${consoleDoc.name} as a console.`
-      );
-      err.status = 404;
-      next(err);
-    }
-    if (consoleDoc.imageURL) {
-      deleteOldImage("consoles", consoleDoc.imageURL);
-    }
-    await Console.deleteOne({ _id: req.params.id }).exec();
-    res.redirect("/store/consoles");
-  } catch (err) {
-    err.state = 404;
-    next(err);
-  }
-};
+  },
+];
 
 const handleFileUpload = (req, res, next) => {
   const consoleStorage = multerStorage("consoles");

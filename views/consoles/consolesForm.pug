@@ -19,6 +19,10 @@ block content
       label(for="delete") Delete Image (includes uploaded image)
         input#delete(type="checkbox", name="delete")
 
+    if (consoleDoc)
+      label(for="password") Please enter the password to submit updates: 
+        input#password(type="password", name="password") 
+
     input(type="submit", value=buttonLabel)
 
   a(href=(consoleDoc ? `/store/consoles/${consoleDoc._id}` : "/store/consoles"))
