@@ -270,19 +270,10 @@ const putUpdatedGame = [
       } else {
         game.copies = undefined;
       }
-      if (req.body.delete && game.imageURL) {
-        deleteOldImage("videoGames", game.imageURL);
+      if (!errors.isEmpty()) {
         if (req.file) {
           deleteOldImage("videoGames", req.file.filename);
         }
-        game.imageURL = undefined;
-      } else if (req.file) {
-        if (game.imageURL) {
-          deleteOldImage("videoGames", game.imageURL);
-        }
-        game.imageURL = req.file.filename;
-      }
-      if (!errors.isEmpty()) {
         const [developerList, consoleList, genreList] = await Promise.all([
           Developer.find({}).sort({ name: 1 }).exec(),
           Console.find({}).sort({ name: 1 }).exec(),
@@ -298,6 +289,18 @@ const putUpdatedGame = [
           errors: errors.array(),
         });
       } else {
+        if (req.body.delete && game.imageURL) {
+          deleteOldImage("videoGames", game.imageURL);
+          if (req.file) {
+            deleteOldImage("videoGames", req.file.filename);
+          }
+          game.imageURL = undefined;
+        } else if (req.file) {
+          if (game.imageURL) {
+            deleteOldImage("videoGames", game.imageURL);
+          }
+          game.imageURL = req.file.filename;
+        }
         await game.save();
         res.redirect(game.url);
       }

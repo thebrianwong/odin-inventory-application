@@ -230,19 +230,10 @@ const putUpdatedDeveloper = [
           developer.headquarters.set("country", req.body.country);
         }
       }
-      if (req.body.delete && developer.imageURL) {
-        deleteOldImage("developers", developer.imageURL);
+      if (!errors.isEmpty()) {
         if (req.file) {
           deleteOldImage("developers", req.file.filename);
         }
-        developer.imageURL = undefined;
-      } else if (req.file) {
-        if (developer.imageURL) {
-          deleteOldImage("developers", developer.imageURL);
-        }
-        developer.imageURL = req.file.filename;
-      }
-      if (!errors.isEmpty()) {
         res.render("../views/developers/developersForm", {
           title: `Update Developer ID ${req.params.id}`,
           developer,
@@ -250,6 +241,18 @@ const putUpdatedDeveloper = [
           errors: errors.array(),
         });
       } else {
+        if (req.body.delete && developer.imageURL) {
+          deleteOldImage("developers", developer.imageURL);
+          if (req.file) {
+            deleteOldImage("developers", req.file.filename);
+          }
+          developer.imageURL = undefined;
+        } else if (req.file) {
+          if (developer.imageURL) {
+            deleteOldImage("developers", developer.imageURL);
+          }
+          developer.imageURL = req.file.filename;
+        }
         await developer.save();
         res.redirect(developer.url);
       }

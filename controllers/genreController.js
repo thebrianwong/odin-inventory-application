@@ -153,19 +153,10 @@ const putUpdatedGenre = [
       }
       genre.name = req.body.name;
       genre.description = req.body.description;
-      if (req.body.delete && genre.imageURL) {
-        deleteOldImage("genres", genre.imageURL);
+      if (!errors.isEmpty()) {
         if (req.file) {
           deleteOldImage("genres", req.file.filename);
         }
-        genre.imageURL = undefined;
-      } else if (req.file) {
-        if (genre.imageURL) {
-          deleteOldImage("genres", genre.imageURL);
-        }
-        genre.imageURL = req.file.filename;
-      }
-      if (!errors.isEmpty()) {
         res.render("../views/genres/genresForm", {
           title: `Update Genre ID ${req.params.id}`,
           genre,
@@ -173,6 +164,18 @@ const putUpdatedGenre = [
           errors: errors.array(),
         });
       } else {
+        if (req.body.delete && genre.imageURL) {
+          deleteOldImage("genres", genre.imageURL);
+          if (req.file) {
+            deleteOldImage("genres", req.file.filename);
+          }
+          genre.imageURL = undefined;
+        } else if (req.file) {
+          if (genre.imageURL) {
+            deleteOldImage("genres", genre.imageURL);
+          }
+          genre.imageURL = req.file.filename;
+        }
         await genre.save();
         res.redirect(genre.url);
       }
