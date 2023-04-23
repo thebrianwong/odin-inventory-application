@@ -3,7 +3,7 @@ const { mongoose } = require("mongoose");
 const multer = require("multer");
 const Console = require("../models/console");
 const VideoGame = require("../models/videoGame");
-const multerStorage = require("../multerStorage");
+const { multerStorage, multerFilter } = require("../multerUtils");
 const deleteOldImage = require("../deleteOldImage");
 
 const getAllConsoles = async (req, res, next) => {
@@ -160,7 +160,6 @@ const putUpdatedConsole = [
     .toDate(),
   async (req, res, next) => {
     try {
-      console.log(req.body);
       if (!mongoose.isValidObjectId(req.params.id)) {
         const err = new Error("Console ID is invalid");
         err.status = 404;
@@ -269,8 +268,20 @@ const deleteConsole = async (req, res, next) => {
   }
 };
 
-const consoleStorage = multerStorage("consoles");
-const consoleUpload = multer({ storage: consoleStorage });
+const handleFileUpload = (req, res, next) => {
+  const consoleStorage = multerStorage("consoles");
+  const consoleUpload = multer({
+    storage: consoleStorage,
+    fileFilter: multerFilter,
+  }).single("file");
+  consoleUpload(req, res, (err) => {
+    if (err) {
+      err.status = 400;
+      next(err);
+    }
+    next();
+  });
+};
 
 module.exports = {
   getAllConsoles,
@@ -281,5 +292,5 @@ module.exports = {
   putUpdatedConsole,
   getDeleteConsolePage,
   deleteConsole,
-  consoleUpload,
+  handleFileUpload,
 };

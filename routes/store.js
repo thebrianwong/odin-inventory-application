@@ -75,7 +75,7 @@ router.get("/consoles/new", ConsoleController.getNewConsoleForm);
 // submit new console
 router.post(
   "/consoles/new",
-  ConsoleController.consoleUpload.single("file"),
+  ConsoleController.handleFileUpload,
   ConsoleController.postNewConsole
 );
 
@@ -85,7 +85,7 @@ router.get("/consoles/:id/update", ConsoleController.getUpdateConsoleForm);
 // submit game console
 router.put(
   "/consoles/:id/update",
-  ConsoleController.consoleUpload.single("file"),
+  ConsoleController.handleFileUpload,
   ConsoleController.putUpdatedConsole
 );
 

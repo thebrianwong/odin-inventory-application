@@ -6,9 +6,19 @@ const multerStorage = (category) =>
     destination: `./public/data/uploads/${category}`,
     filename: (req, file, cb) => {
       const extension = file.mimetype.split("/")[1];
-      console.log(cb);
       cb(null, `${v4()}.${extension}`);
     },
   });
 
-module.exports = multerStorage;
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype === "image/png" || file.mimetype === "image/jpeg") {
+    cb(null, true);
+  } else {
+    cb(new Error("Not a valid image format"));
+  }
+};
+
+module.exports = {
+  multerStorage,
+  multerFilter,
+};
