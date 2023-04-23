@@ -260,6 +260,7 @@ const deleteConsole = async (req, res, next) => {
       err.status = 404;
       next(err);
     }
+    deleteOldImage("consoles", consoleDoc.imageURL);
     await Console.deleteOne({ _id: req.params.id }).exec();
     res.redirect("/store/consoles");
   } catch (err) {

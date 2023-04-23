@@ -311,6 +311,7 @@ const deleteDeveloper = async (req, res, next) => {
       err.status = 404;
       next(err);
     }
+    deleteOldImage("developers", developer.imageURL);
     await Developer.deleteOne({ _id: req.params.id }).exec();
     res.redirect("/store/developers");
   } catch (err) {
