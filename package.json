@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www",
-    "server": "DEBUG=odin-inventory-application:* npm start"
+    "dev": "nodemon ./bin/www & npm run sass-build",
+    "server": "DEBUG=odin-inventory-application:* npm start",
+    "sass-build": "sass --watch public/stylesheets/style.scss public/stylesheets/style.css"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -24,6 +25,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "sass": "^1.62.0"
   }
 }
