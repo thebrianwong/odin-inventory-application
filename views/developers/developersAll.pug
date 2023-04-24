@@ -8,7 +8,7 @@ block content
     if (developer.imageURL)
       a(href=developer.url)
         button 
-          img(src=`/data/uploads/developers/${developer.imageURL}`, alt=`The offices of ${developer.name}`)
+          img(src=`/data/uploads/developers/${developer.imageURL}`, alt=`${developer.name} logo`)
       p= developer.name
 
     else
