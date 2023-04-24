@@ -14,7 +14,7 @@ const multerFilter = (req, file, cb) => {
   if (file.mimetype === "image/png" || file.mimetype === "image/jpeg") {
     cb(null, true);
   } else {
-    cb(new Error("Not a valid image format"));
+    cb(new Error("Not a valid image format."));
   }
 };
 
