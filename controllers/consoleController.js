@@ -10,7 +10,7 @@ const getAllConsoles = async (req, res, next) => {
   try {
     const consoleList = await Console.find({}).sort({ name: 1 }).exec();
     if (consoleList === null) {
-      const err = new Error("There was an error loading consoles");
+      const err = new Error("There was an error loading consoles.");
       err.status = 404;
       next(err);
     }
@@ -27,7 +27,7 @@ const getAllConsoles = async (req, res, next) => {
 const getOneConsole = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Console ID is invalid");
+      const err = new Error("Console ID is invalid.");
       err.status = 404;
       next(err);
     }
@@ -36,7 +36,7 @@ const getOneConsole = async (req, res, next) => {
       VideoGame.find({ console: req.params.id }).sort({ name: 1 }).exec(),
     ]);
     if (consoleDoc === null) {
-      const err = new Error("Console does not exist");
+      const err = new Error("Console does not exist.");
       err.status = 404;
       next(err);
     }
@@ -59,25 +59,24 @@ const getNewConsoleForm = (req, res) => {
 };
 
 const postNewConsole = [
-  body("name", "Console name must not be empty")
+  body("name", "Console name must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("description", "Description must not be empty")
+  body("description", "Description must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("creator", "Creator must not be empty")
+  body("creator", "Creator must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("releaseDate", "Release date must be a valid date")
+  body("releaseDate", "Release date must be a valid date.")
     .optional({ values: "falsy" })
     .isISO8601()
     .toDate(),
   async (req, res, next) => {
     try {
-      const errors = validationResult(req);
       const consoleDetails = {
         name: req.body.name,
         description: req.body.description,
@@ -90,6 +89,7 @@ const postNewConsole = [
         consoleDetails.imageURL = req.file.filename;
       }
       const consoleDoc = new Console(consoleDetails);
+      const errors = validationResult(req);
       if (!errors.isEmpty()) {
         res.render("../views/consoles/consolesForm", {
           title: "New Console",
@@ -120,13 +120,13 @@ const postNewConsole = [
 const getUpdateConsoleForm = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Console ID is invalid");
+      const err = new Error("Console ID is invalid.");
       err.status = 404;
       next(err);
     }
     const consoleDoc = await Console.findById(req.params.id).exec();
     if (consoleDoc === null) {
-      const err = new Error("Console does not exist");
+      const err = new Error("Console does not exist.");
       err.status = 404;
       next(err);
     }
@@ -136,25 +136,25 @@ const getUpdateConsoleForm = async (req, res, next) => {
       buttonLabel: "Update Console",
     });
   } catch (err) {
-    err.status = 400;
+    err.status = 404;
     next(err);
   }
 };
 
 const putUpdatedConsole = [
-  body("name", "Console name must not be empty")
+  body("name", "Console name must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("description", "Description must not be empty")
+  body("description", "Description must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("creator", "Creator must not be empty")
+  body("creator", "Creator must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("releaseDate", "Release date must be a valid date")
+  body("releaseDate", "Release date must be a valid date.")
     .optional({ values: "falsy" })
     .isISO8601()
     .toDate(),
@@ -164,14 +164,13 @@ const putUpdatedConsole = [
   async (req, res, next) => {
     try {
       if (!mongoose.isValidObjectId(req.params.id)) {
-        const err = new Error("Console ID is invalid");
+        const err = new Error("Console ID is invalid.");
         err.status = 404;
         next(err);
       }
-      const errors = validationResult(req);
       const consoleDoc = await Console.findById(req.params.id).exec();
       if (consoleDoc === null) {
-        const err = new Error("Console does not exist");
+        const err = new Error("Console does not exist.");
         err.status = 404;
         next(err);
       }
@@ -183,6 +182,7 @@ const putUpdatedConsole = [
       } else {
         consoleDoc.releaseDate = undefined;
       }
+      const errors = validationResult(req);
       if (!errors.isEmpty()) {
         if (req.file) {
           deleteOldImage("consoles", req.file.filename);
@@ -219,7 +219,7 @@ const putUpdatedConsole = [
 const getDeleteConsolePage = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Console ID is invalid");
+      const err = new Error("Console ID is invalid.");
       err.status = 404;
       next(err);
     }
@@ -228,7 +228,7 @@ const getDeleteConsolePage = async (req, res, next) => {
       VideoGame.find({ console: req.params.id }).exec(),
     ]);
     if (consoleDoc === null) {
-      const err = new Error("Console does not exist");
+      const err = new Error("Console does not exist.");
       err.status = 404;
       next(err);
     }
@@ -244,23 +244,22 @@ const getDeleteConsolePage = async (req, res, next) => {
 };
 
 const deleteConsole = [
-  body("password", "Password is incorrect").custom(
+  body("password", "Password is incorrect.").custom(
     (value) => value === process.env.PASSWORD
   ),
   async (req, res, next) => {
     try {
       if (!mongoose.isValidObjectId(req.params.id)) {
-        const err = new Error("Console ID is invalid");
+        const err = new Error("Console ID is invalid.");
         err.status = 404;
         next(err);
       }
-      const errors = validationResult(req);
       const [consoleDoc, videoGamesWithConsole] = await Promise.all([
         Console.findById(req.params.id).exec(),
         VideoGame.find({ console: req.params.id }).exec(),
       ]);
       if (consoleDoc === null) {
-        const err = new Error("Console does not exist");
+        const err = new Error("Console does not exist.");
         err.status = 404;
         next(err);
       }
@@ -268,9 +267,10 @@ const deleteConsole = [
         const err = new Error(
           `Some game(s) still have the ${consoleDoc.name} as a console.`
         );
-        err.status = 404;
+        err.status = 400;
         next(err);
       }
+      const errors = validationResult(req);
       if (!errors.isEmpty()) {
         res.render("../views/consoles/consolesDelete", {
           title: `Delete Console ID ${req.params.id}`,

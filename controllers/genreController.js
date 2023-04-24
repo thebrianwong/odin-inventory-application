@@ -10,7 +10,7 @@ const getAllGenres = async (req, res, next) => {
   try {
     const genreList = await Genre.find({}).sort({ name: 1 }).exec();
     if (genreList === null) {
-      const err = new Error("There was an error loading genres");
+      const err = new Error("There was an error loading genres.");
       err.status = 404;
       next(err);
     }
@@ -27,7 +27,7 @@ const getAllGenres = async (req, res, next) => {
 const getOneGenre = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Genre ID is invalid");
+      const err = new Error("Genre ID is invalid.");
       err.status = 404;
       next(err);
     }
@@ -36,7 +36,7 @@ const getOneGenre = async (req, res, next) => {
       VideoGame.find({ genre: req.params.id }).sort({ name: 1 }).exec(),
     ]);
     if (genre === null) {
-      const err = new Error("Genre does not exist");
+      const err = new Error("Genre does not exist.");
       err.status = 404;
       next(err);
     }
@@ -59,17 +59,16 @@ const getNewGenreForm = (req, res) => {
 };
 
 const postNewGenre = [
-  body("name", "Genre name must not be empty")
+  body("name", "Genre name must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("description", "Description must not be empty")
+  body("description", "Description must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
   async (req, res, next) => {
     try {
-      const errors = validationResult(req);
       const genreDetails = {
         name: req.body.name,
         description: req.body.description,
@@ -78,6 +77,7 @@ const postNewGenre = [
         genreDetails.imageURL = req.file.filename;
       }
       const genre = new Genre(genreDetails);
+      const errors = validationResult(req);
       if (!errors.isEmpty()) {
         res.render("../views/genres/genresForm", {
           title: "New Genre",
@@ -98,7 +98,7 @@ const postNewGenre = [
         }
       }
     } catch (err) {
-      err.status = 400;
+      err.status = 404;
       next(err);
     }
   },
@@ -107,13 +107,13 @@ const postNewGenre = [
 const getUpdateGenreForm = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Genre ID is invalid");
+      const err = new Error("Genre ID is invalid.");
       err.status = 404;
       next(err);
     }
     const genre = await Genre.findById(req.params.id).exec();
     if (genre === null) {
-      const err = new Error("Genre does not exist");
+      const err = new Error("Genre does not exist.");
       err.status = 404;
       next(err);
     }
@@ -123,34 +123,34 @@ const getUpdateGenreForm = async (req, res, next) => {
       buttonLabel: "Update Genre",
     });
   } catch (err) {
-    err.status = 400;
+    err.status = 404;
     next(err);
   }
 };
 
 const putUpdatedGenre = [
-  body("name", "Genre name must not be empty")
+  body("name", "Genre name must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("description", "Description must not be empty")
+  body("description", "Description must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("password", "Password is incorrect").custom(
+  body("password", "Password is incorrect.").custom(
     (value) => value === process.env.PASSWORD
   ),
   async (req, res, next) => {
     try {
       if (!mongoose.isValidObjectId(req.params.id)) {
-        const err = new Error("Genre ID is invalid");
+        const err = new Error("Genre ID is invalid.");
         err.status = 404;
         next(err);
       }
       const errors = validationResult(req);
       const genre = await Genre.findById(req.params.id).exec();
       if (genre === null) {
-        const err = new Error("Genre does not exist");
+        const err = new Error("Genre does not exist.");
         err.status = 404;
         next(err);
       }
@@ -183,7 +183,7 @@ const putUpdatedGenre = [
         res.redirect(genre.url);
       }
     } catch (err) {
-      err.status = 400;
+      err.status = 404;
       next(err);
     }
   },
@@ -192,7 +192,7 @@ const putUpdatedGenre = [
 const getDeleteGenrePage = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Genre ID is invalid");
+      const err = new Error("Genre ID is invalid.");
       err.status = 404;
       next(err);
     }
@@ -201,7 +201,7 @@ const getDeleteGenrePage = async (req, res, next) => {
       VideoGame.find({ genre: req.params.id }).exec(),
     ]);
     if (genre === null) {
-      const err = new Error("Genre does not exist");
+      const err = new Error("Genre does not exist.");
       err.status = 404;
       next(err);
     }
@@ -223,7 +223,7 @@ const deleteGenre = [
   async (req, res, next) => {
     try {
       if (!mongoose.isValidObjectId(req.params.id)) {
-        const err = new Error("Genre ID is invalid");
+        const err = new Error("Genre ID is invalid.");
         err.status = 404;
         next(err);
       }
@@ -233,7 +233,7 @@ const deleteGenre = [
         VideoGame.find({ genre: req.params.id }).exec(),
       ]);
       if (genre === null) {
-        const err = new Error("Genre does not exist");
+        const err = new Error("Genre does not exist.");
         err.status = 404;
         next(err);
       }
@@ -241,7 +241,7 @@ const deleteGenre = [
         const err = new Error(
           `Some game(s) still have ${genre.name} as a genre.`
         );
-        err.status = 404;
+        err.status = 400;
         next(err);
       }
       if (!errors.isEmpty()) {

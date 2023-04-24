@@ -38,7 +38,7 @@ const getAllGames = async (req, res, next) => {
       .populate("genre")
       .exec();
     if (gameList === null) {
-      const err = new Error("There was an error loading games");
+      const err = new Error("There was an error loading games.");
       err.status = 404;
       next(err);
     }
@@ -55,7 +55,7 @@ const getAllGames = async (req, res, next) => {
 const getOneGame = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Video Game ID is invalid");
+      const err = new Error("Video Game ID is invalid.");
       err.status = 404;
       next(err);
     }
@@ -65,7 +65,7 @@ const getOneGame = async (req, res, next) => {
       .populate("genre")
       .exec();
     if (game === null) {
-      const err = new Error("Game does not exist");
+      const err = new Error("Game does not exist.");
       err.status = 404;
       next(err);
     }
@@ -101,29 +101,30 @@ const getNewGameForm = async (req, res, next) => {
 };
 
 const postNewGame = [
-  body("name", "Game name must not be empty")
+  body("name", "Game name must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("description", "Description must not be empty")
+  body("description", "Description must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("releaseDate", "Release date must be a valid date").isISO8601().toDate(),
-  body("developer", "Invalid developer").trim().isLength({ min: 1 }).escape(),
-  body("console.*", "Invalid console(s)").escape(),
-  body("genre.*", "Invalid genre(s)").escape(),
-  body("price", "Price must be a positive number")
+  body("releaseDate", "Release date must be a valid date.")
+    .isISO8601()
+    .toDate(),
+  body("developer", "Invalid developer.").trim().isLength({ min: 1 }).escape(),
+  body("console.*", "Invalid console(s).").escape(),
+  body("genre.*", "Invalid genre(s).").escape(),
+  body("price", "Price must be a positive number.")
     .optional({ values: "falsy" })
     .trim()
     .isFloat({ min: 0.0 }),
-  body("copies", "Copies must be a positive integer with no leading zeros")
+  body("copies", "Copies must be a positive integer with no leading zeros.")
     .optional({ values: "falsy" })
     .trim()
     .isInt({ min: 0, allow_leading_zeroes: false }),
   async (req, res, next) => {
     try {
-      const errors = validationResult(req);
       const gameDetails = {
         name: req.body.name,
         description: req.body.description,
@@ -146,6 +147,7 @@ const postNewGame = [
         gameDetails.imageURL = req.file.filename;
       }
       const game = new VideoGame(gameDetails);
+      const errors = validationResult(req);
       if (!errors.isEmpty()) {
         const [developerList, consoleList, genreList] = await Promise.all([
           Developer.find({}).sort({ name: 1 }).exec(),
@@ -182,7 +184,7 @@ const postNewGame = [
 const getUpdateGameForm = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Video Game ID is invalid");
+      const err = new Error("Video Game ID is invalid.");
       err.status = 404;
       next(err);
     }
@@ -193,7 +195,7 @@ const getUpdateGameForm = async (req, res, next) => {
       Genre.find({}).sort({ name: 1 }).exec(),
     ]);
     if (game === null) {
-      const err = new Error("Game does not exist");
+      const err = new Error("Game does not exist.");
       err.status = 404;
       next(err);
     }
@@ -212,27 +214,29 @@ const getUpdateGameForm = async (req, res, next) => {
 };
 
 const putUpdatedGame = [
-  body("name", "Game name must not be empty")
+  body("name", "Game name must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("description", "Description must not be empty")
+  body("description", "Description must not be empty.")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("releaseDate", "Release date must be a valid date").isISO8601().toDate(),
-  body("developer", "Invalid developer").trim().isLength({ min: 1 }).escape(),
-  body("console.*", "Invalid console(s)").escape(),
-  body("genre.*", "Invalid genre(s)").escape(),
-  body("price", "Price must be a positive number")
+  body("releaseDate", "Release date must be a valid date.")
+    .isISO8601()
+    .toDate(),
+  body("developer", "Invalid developer.").trim().isLength({ min: 1 }).escape(),
+  body("console.*", "Invalid console(s).").escape(),
+  body("genre.*", "Invalid genre(s).").escape(),
+  body("price", "Price must be a positive number.")
     .optional({ values: "falsy" })
     .trim()
     .isFloat({ min: 0.0 }),
-  body("copies", "Copies must be a positive integer with no leading zeros")
+  body("copies", "Copies must be a positive integer with no leading zeros.")
     .optional({ values: "falsy" })
     .trim()
     .isInt({ min: 0, allow_leading_zeroes: false }),
-  body("password", "Password is incorrect").custom(
+  body("password", "Password is incorrect.").custom(
     (value) => value === process.env.PASSWORD
   ),
   async (req, res, next) => {
@@ -242,7 +246,6 @@ const putUpdatedGame = [
         err.status = 404;
         next(err);
       }
-      const errors = validationResult(req);
       const game = await VideoGame.findById(req.params.id).exec();
       if (game === null) {
         const err = new Error("Game does not exist");
@@ -273,6 +276,7 @@ const putUpdatedGame = [
       } else {
         game.copies = undefined;
       }
+      const errors = validationResult(req);
       if (!errors.isEmpty()) {
         if (req.file) {
           deleteOldImage("videoGames", req.file.filename);
@@ -317,13 +321,13 @@ const putUpdatedGame = [
 const getDeleteGamePage = async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Video Game ID is invalid");
+      const err = new Error("Video Game ID is invalid.");
       err.status = 404;
       next(err);
     }
     const game = await VideoGame.findById(req.params.id).exec();
     if (game === null) {
-      const err = new Error("Game does not exist");
+      const err = new Error("Game does not exist.");
       err.status = 404;
       next(err);
     }
@@ -338,23 +342,23 @@ const getDeleteGamePage = async (req, res, next) => {
 };
 
 const deleteGame = [
-  body("password", "Password is incorrect").custom(
+  body("password", "Password is incorrect.").custom(
     (value) => value === process.env.PASSWORD
   ),
   async (req, res, next) => {
     try {
       if (!mongoose.isValidObjectId(req.params.id)) {
-        const err = new Error("Video Game ID is invalid");
+        const err = new Error("Video Game ID is invalid.");
+        err.status = 404;
+        next(err);
+      }
+      const game = await VideoGame.findById(req.params.id).exec();
+      if (game === null) {
+        const err = new Error("Game does not exist.");
         err.status = 404;
         next(err);
       }
       const errors = validationResult(req);
-      const game = await VideoGame.findById(req.params.id).exec();
-      if (game === null) {
-        const err = new Error("Game does not exist");
-        err.status = 404;
-        next(err);
-      }
       if (!errors.isEmpty()) {
         res.render("../views/videoGames/videoGamesDelete", {
           title: `Delete Video Game ID ${req.params.id}`,
