@@ -4,4 +4,17 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    
+    nav 
+      a(href="/store")
+        button Home 
+      a(href="/store/videogames")
+        button Video Games 
+      a(href="/store/developers")
+        button Developers 
+      a(href="/store/consoles")
+        button Consoles
+      a(href="/store/genres")
+        button Genres
+
     block content
