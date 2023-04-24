@@ -3,10 +3,13 @@ extends ../layout
 block content 
   h1 Console ID #{title}
   h2= consoleDoc.name
+
   if (consoleDoc.releaseDate)
     p Released in #{consoleDoc.releaseDateDisplayFormatted} by #{consoleDoc.creator}
+
   else 
     p By #{consoleDoc.creator}
+    
   p= consoleDoc.description 
 
   if (consoleGames.length)

@@ -2,11 +2,15 @@ extends ../layout
 
 block content 
   h1 Developer ID #{title} 
+
   h2=developer.name 
+
   if (developer.founded !== undefined)
     p Founded in #{developer.founded}
+
   if (developer.headquarters)
     p Headquartered in #{developer.headquartersFormatted}
+    
   p=developer.description
 
   if (developer.imageURL)

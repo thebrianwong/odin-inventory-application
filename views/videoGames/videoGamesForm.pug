@@ -2,11 +2,15 @@ extends ../layout
 
 block content 
   h1= title 
+
   form(action=(title === "New Video Game" ? "" : `/store/videogames/${game._id}/update?_method=PUT`), method="post", enctype="multipart/form-data") 
+
     label(for="name") Video Game (required) : 
       input#name(type="text", name="name", required, minlength=1, value=(game ? game.name : ""))
+
     label(for="description") Description (required) : 
       textarea#description(name="description", cols="30", rows="10", required, minlength=1)= game ? game.description : ""
+      
     label(for="releaseDate") Release Date (required) : 
       input#releaseDate(type="date", name="releaseDate", required, value=(game ? game.releaseDateFormFormatted : "")) 
 
@@ -33,8 +37,10 @@ block content
                   : false)
               : false)
             )= developer.name
+
     fieldset 
       legend Available on the Following Consoles (optional) :
+
       for console in consoleList 
         label(for=console.name)= console.name 
         input(id=console.name, type="checkbox", name="console", value=console._id,
@@ -53,6 +59,7 @@ block content
 
     fieldset 
       legend This Game is a(n) (optional) :
+      
       for genre in genreList 
         label(for=genre.name)= genre.name 
         input(id=genre.name, type="checkbox", name="genre", value=genre._id,

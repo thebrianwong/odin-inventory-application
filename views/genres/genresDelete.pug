@@ -2,6 +2,7 @@ extends ../layout
 
 block content 
   h1= title
+  
   if (videoGamesWithGenre.length)
     p= `The following game(s) have the ${genre.name} as a genre. Please delete them first.`
     for game in videoGamesWithGenre

@@ -4,6 +4,7 @@ block content
   h1= title
 
   p= `Are you sure you want to delete ${game.name}?`
+  
   form(action=`/store/videogames/${game._id}/delete?_method=DELETE`, method="post") 
     label(for="password") Please enter the password to confirm deletion: 
         input#password(type="password", name="password") 

@@ -3,14 +3,17 @@ extends ../layout
 block content 
   h1= title
   a(href="/store/developers/new") Add New Developer 
+
   for developer in developerList
     if (developer.imageURL)
       a(href=developer.url)
         button 
           img(src=`/data/uploads/developers/${developer.imageURL}`, alt=`The offices of ${developer.name}`)
       p= developer.name
+
     else
       a(href=developer.url)
         button= developer.name
+
     if (developer.founded)
       p Founded in #{developer.founded} 

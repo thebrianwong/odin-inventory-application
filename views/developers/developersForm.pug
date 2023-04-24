@@ -2,19 +2,27 @@ extends ../layout
 
 block content 
   h1= title 
+
   form(action=(title === "New Developer" ? "" : `/store/developers/${developer._id}/update?_method=PUT`), method="post", enctype="multipart/form-data") 
+
     label(for="name") Developer (required) : 
       input#name(type="text", name="name", required, minlength=1, value=(developer ? developer.name : ""))
+
     label(for="description") Description (required) : 
       textarea#description(name="description", cols="30", rows="10", required, minlength=1)= developer ? developer.description : ""
+
     label(for="founded") Founded Year (optional) : 
       input#founded(type="number", name="founded", value=(developer ? developer.founded : "")) 
+
     fieldset 
       legend Headquarters Location (optional)
+
       label(for="city") City:
         input#city(type="text", name="city", value=(developer && developer.headquarters ? developer.headquarters.get("city") : "")) 
+
       label(for="state") State: 
         input#state(type="text", name="state", value=(developer && developer.headquarters ? developer.headquarters.get("state") : "")) 
+        
       label(for="country") Country: 
         input#country(type="text", name="country", value=(developer && developer.headquarters ? developer.headquarters.get("country") : "")) 
 

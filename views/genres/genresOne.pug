@@ -2,7 +2,9 @@ extends ../layout
 
 block content 
   h1 Genre ID #{title}
+  
   h2= genre.name 
+
   p= genre.description 
 
   if (genreGames.length)

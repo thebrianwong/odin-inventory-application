@@ -3,12 +3,14 @@ extends ../layout
 block content 
   h1= title 
   a(href="/store/genres/new") Add New Genre 
+
   for genre in genreList 
     if (genre.imageURL)
       a(href=genre.url)
         button 
           img(src=`/data/uploads/genres/${genre.imageURL}`, alt=`Visual depiction of the ${genre.name} genre`)
       p= genre.name
+      
     else
       a(href=genre.url)
         button= genre.name

@@ -2,7 +2,9 @@ extends ../layout
 
 block content 
   h1= title
+
   h2= game.name 
+
   p Developed by 
     a(href=game.developer.url)= game.developer.name
 
@@ -10,19 +12,26 @@ block content
     img(src=`/data/uploads/videoGames/${game.imageURL}`, alt=`Official box art ${game.name}`)
 
   p Originally released on #{game.releaseDateDisplayFormatted}
+
   p= game.price !== undefined ? `Price: ${game.priceFormatted}` : "Price Unavailable"
+
   p= game.copies !== undefined ? `Copies in stock: ${game.copies}` : "Number of Copies Unavailable"
+
   p= game.description
+
   p Available on:
   if (game.console.length)
     for console in game.console
       a(href=console.url)= console.name 
+
   else 
     p None
+
   p Genres:
   if (game.genre.length)
     for genre in game.genre 
       a(href=genre.url)= genre.name 
+      
   else 
     p None
 

@@ -2,6 +2,7 @@ extends ../layout
 
 block content 
   h1= title 
+  
   if (videoGamesWithDeveloper.length)
     p= `The following game(s) have ${developer.name} as a developer. Please delete them first.`
     for game in videoGamesWithDeveloper

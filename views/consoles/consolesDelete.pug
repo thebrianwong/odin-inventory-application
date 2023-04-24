@@ -2,6 +2,7 @@ extends ../layout
 
 block content 
   h1= title
+  
   if (videoGamesWithConsole.length)
     p= `The following game(s) have the ${consoleDoc.name} as a console. Please delete them first.`
     for game in videoGamesWithConsole
