@@ -107,3 +107,8 @@ dist
 *.png
 *.jpg
 *.jpeg
+
+# Build CSS, but not CSS reset
+*.css
+*.css.map
+!_normalize.css
