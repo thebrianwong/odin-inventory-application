@@ -4,7 +4,7 @@ const router = express.Router();
 
 /* GET home page. */
 router.get("/", (req, res) => {
-  res.send("placeholder");
+  res.redirect("/store");
 });
 
 module.exports = router;
