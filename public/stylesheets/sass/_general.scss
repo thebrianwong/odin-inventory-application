@@ -1,0 +1,14 @@
+@use "./variables";
+
+:root {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-align: center;
+  background-color: variables.$offwhite;
+}
+
+button {
+  background-color: variables.$gamestopRed;
+  color: variables.$offwhite;
+  border: solid 2px variables.$gamestopBlack;
+  border-radius: 2px;
+}

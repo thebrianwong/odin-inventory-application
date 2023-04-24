@@ -1,0 +1,14 @@
+@use "./mixins";
+
+.container {
+  @include mixins.flex(center, center, column);
+  gap: 10px;
+
+  .category:first-of-type {
+    margin-top: 10px;
+  }
+
+  p {
+    margin: 10px;
+  }
+}

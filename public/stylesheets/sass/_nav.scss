@@ -1,0 +1,27 @@
+@use "./variables";
+@use "./mixins";
+
+nav {
+  @include mixins.flex(center, center);
+  gap: 10px;
+  padding: 10px;
+  background-color: variables.$gamestopBlack;
+  box-shadow: 0 2px 12px lightgray;
+
+  .logo-odin {
+    color: variables.$gamestopWhite;
+  }
+
+  .logo-stop {
+    color: variables.$gamestopRed;
+  }
+
+  p {
+    padding: 10px;
+    font-size: xx-large;
+    font-weight: 600;
+  }
+  button {
+    border-color: variables.$offwhite;
+  }
+}
