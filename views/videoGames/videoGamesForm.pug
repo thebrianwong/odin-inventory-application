@@ -76,6 +76,10 @@ block content
       label(for="delete") Delete Image (includes uploaded image)
         input#delete(type="checkbox", name="delete")
 
+    if (game)
+      label(for="password") Please enter the password to submit updates: 
+        input#password(type="password", name="password") 
+
     input(type="submit", value=buttonLabel)
 
   a(href=(game ? `/store/videogames/${game._id}` : "/store/videogames"))

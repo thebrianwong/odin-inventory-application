@@ -10,8 +10,14 @@ block content
   if (!videoGamesWithDeveloper.length)
     p= `Are you sure you want to delete ${developer.name}?`
     form(action=`/store/developers/${developer._id}/delete?_method=DELETE`, method="post") 
+      label(for="password") Please enter the password to confirm deletion: 
+          input#password(type="password", name="password") 
       input(type="submit", value="Delete Developer")
 
 
   a(href=`/store/developers/${developer._id}`)
     button Cancel 
+
+  if (errors)
+    for error in errors 
+      p= error.msg

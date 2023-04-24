@@ -196,6 +196,9 @@ const putUpdatedDeveloper = [
     .trim()
     .isAlpha()
     .escape(),
+  body("password", "Password is incorrect").custom(
+    (value) => value === process.env.PASSWORD
+  ),
   async (req, res, next) => {
     try {
       if (!mongoose.isValidObjectId(req.params.id)) {
@@ -291,39 +294,54 @@ const getDeleteDeveloperPage = async (req, res, next) => {
   }
 };
 
-const deleteDeveloper = async (req, res, next) => {
-  try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Developer ID is invalid");
-      err.status = 404;
+const deleteDeveloper = [
+  body("password", "Password is incorrect").custom(
+    (value) => value === process.env.PASSWORD
+  ),
+  async (req, res, next) => {
+    try {
+      if (!mongoose.isValidObjectId(req.params.id)) {
+        const err = new Error("Developer ID is invalid");
+        err.status = 404;
+        next(err);
+      }
+      const errors = validationResult(req);
+      const [developer, videoGamesWithDeveloper] = await Promise.all([
+        Developer.findById(req.params.id).exec(),
+        VideoGames.find({ developer: req.params.id }).exec(),
+      ]);
+      if (developer === null) {
+        const err = new Error("Developer does not exist");
+        err.status = 404;
+        next(err);
+      }
+      if (videoGamesWithDeveloper.length) {
+        const err = new Error(
+          `Some game(s) still have ${developer.name} as a developer.`
+        );
+        err.status = 404;
+        next(err);
+      }
+      if (!errors.isEmpty()) {
+        res.render("../views/developers/developersDelete", {
+          title: `Delete Developer ID ${req.params.id}`,
+          developer,
+          videoGamesWithDeveloper,
+          errors: errors.array(),
+        });
+      } else {
+        if (developer.imageURL) {
+          deleteOldImage("developers", developer.imageURL);
+        }
+        await Developer.deleteOne({ _id: req.params.id }).exec();
+        res.redirect("/store/developers");
+      }
+    } catch (err) {
+      err.state = 404;
       next(err);
     }
-    const [developer, videoGamesWithDeveloper] = await Promise.all([
-      Developer.findById(req.params.id).exec(),
-      VideoGames.find({ developer: req.params.id }).exec(),
-    ]);
-    if (developer === null) {
-      const err = new Error("Developer does not exist");
-      err.status = 404;
-      next(err);
-    }
-    if (videoGamesWithDeveloper.length) {
-      const err = new Error(
-        `Some game(s) still have ${developer.name} as a developer.`
-      );
-      err.status = 404;
-      next(err);
-    }
-    if (developer.imageURL) {
-      deleteOldImage("developers", developer.imageURL);
-    }
-    await Developer.deleteOne({ _id: req.params.id }).exec();
-    res.redirect("/store/developers");
-  } catch (err) {
-    err.state = 404;
-    next(err);
-  }
-};
+  },
+];
 
 const handleFileUpload = (req, res, next) => {
   const developerStorage = multerStorage("developers");

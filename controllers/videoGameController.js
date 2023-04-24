@@ -232,6 +232,9 @@ const putUpdatedGame = [
     .optional({ values: "falsy" })
     .trim()
     .isInt({ min: 0, allow_leading_zeroes: false }),
+  body("password", "Password is incorrect").custom(
+    (value) => value === process.env.PASSWORD
+  ),
   async (req, res, next) => {
     try {
       if (!mongoose.isValidObjectId(req.params.id)) {
@@ -334,29 +337,43 @@ const getDeleteGamePage = async (req, res, next) => {
   }
 };
 
-const deleteGame = async (req, res, next) => {
-  try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Video Game ID is invalid");
-      err.status = 404;
+const deleteGame = [
+  body("password", "Password is incorrect").custom(
+    (value) => value === process.env.PASSWORD
+  ),
+  async (req, res, next) => {
+    try {
+      if (!mongoose.isValidObjectId(req.params.id)) {
+        const err = new Error("Video Game ID is invalid");
+        err.status = 404;
+        next(err);
+      }
+      const errors = validationResult(req);
+      const game = await VideoGame.findById(req.params.id).exec();
+      if (game === null) {
+        const err = new Error("Game does not exist");
+        err.status = 404;
+        next(err);
+      }
+      if (!errors.isEmpty()) {
+        res.render("../views/videoGames/videoGamesDelete", {
+          title: `Delete Video Game ID ${req.params.id}`,
+          game,
+          errors: errors.array(),
+        });
+      } else {
+        if (game.imageURL) {
+          deleteOldImage("videoGames", game.imageURL);
+        }
+        await VideoGame.deleteOne({ _id: req.params.id });
+        res.redirect("/store/videogames");
+      }
+    } catch (err) {
+      err.state = 404;
       next(err);
     }
-    const game = await VideoGame.findById(req.params.id).exec();
-    if (game === null) {
-      const err = new Error("Game does not exist");
-      err.status = 404;
-      next(err);
-    }
-    if (game.imageURL) {
-      deleteOldImage("videoGames", game.imageURL);
-    }
-    await VideoGame.deleteOne({ _id: req.params.id });
-    res.redirect("/store/videogames");
-  } catch (err) {
-    err.state = 404;
-    next(err);
-  }
-};
+  },
+];
 
 const handleFileUpload = (req, res, next) => {
   const gameStorage = multerStorage("videoGames");

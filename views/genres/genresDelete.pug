@@ -10,8 +10,14 @@ block content
   if (!videoGamesWithGenre.length)
     p= `Are you sure you want to delete the ${genre.name} genre?`
     form(action=`/store/genres/${genre._id}/delete?_method=DELETE`, method="post") 
+      label(for="password") Please enter the password to confirm deletion: 
+        input#password(type="password", name="password") 
       input(type="submit", value="Delete Genre")
 
 
   a(href=`/store/genres/${genre._id}`)
     button Cancel 
+
+  if (errors)
+    for error in errors 
+      p= error.msg

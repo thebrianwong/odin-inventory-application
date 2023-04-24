@@ -137,6 +137,9 @@ const putUpdatedGenre = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
+  body("password", "Password is incorrect").custom(
+    (value) => value === process.env.PASSWORD
+  ),
   async (req, res, next) => {
     try {
       if (!mongoose.isValidObjectId(req.params.id)) {
@@ -213,39 +216,54 @@ const getDeleteGenrePage = async (req, res, next) => {
   }
 };
 
-const deleteGenre = async (req, res, next) => {
-  try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      const err = new Error("Genre ID is invalid");
-      err.status = 404;
+const deleteGenre = [
+  body("password", "Password is incorrect").custom(
+    (value) => value === process.env.PASSWORD
+  ),
+  async (req, res, next) => {
+    try {
+      if (!mongoose.isValidObjectId(req.params.id)) {
+        const err = new Error("Genre ID is invalid");
+        err.status = 404;
+        next(err);
+      }
+      const errors = validationResult(req);
+      const [genre, videoGamesWithGenre] = await Promise.all([
+        Genre.findById(req.params.id).exec(),
+        VideoGame.find({ genre: req.params.id }).exec(),
+      ]);
+      if (genre === null) {
+        const err = new Error("Genre does not exist");
+        err.status = 404;
+        next(err);
+      }
+      if (videoGamesWithGenre.length) {
+        const err = new Error(
+          `Some game(s) still have ${genre.name} as a genre.`
+        );
+        err.status = 404;
+        next(err);
+      }
+      if (!errors.isEmpty()) {
+        res.render("../views/genres/genresDelete", {
+          title: `Delete Genre ID ${req.params.id}`,
+          genre,
+          videoGamesWithGenre,
+          errors: errors.array(),
+        });
+      } else {
+        if (genre.imageURL) {
+          deleteOldImage("genres", genre.imageURL);
+        }
+        await Genre.deleteOne({ _id: req.params.id }).exec();
+        res.redirect("/store/genres");
+      }
+    } catch (err) {
+      err.state = 404;
       next(err);
     }
-    const [genre, videoGamesWithGenre] = await Promise.all([
-      Genre.findById(req.params.id).exec(),
-      VideoGame.find({ genre: req.params.id }).exec(),
-    ]);
-    if (genre === null) {
-      const err = new Error("Genre does not exist");
-      err.status = 404;
-      next(err);
-    }
-    if (videoGamesWithGenre.length) {
-      const err = new Error(
-        `Some game(s) still have ${genre.name} as a genre.`
-      );
-      err.status = 404;
-      next(err);
-    }
-    if (genre.imageURL) {
-      deleteOldImage("genres", genre.imageURL);
-    }
-    await Genre.deleteOne({ _id: req.params.id }).exec();
-    res.redirect("/store/genres");
-  } catch (err) {
-    err.state = 404;
-    next(err);
-  }
-};
+  },
+];
 
 const handleFileUpload = (req, res, next) => {
   const genreStorage = multerStorage("genres");
