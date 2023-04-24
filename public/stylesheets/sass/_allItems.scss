@@ -1,0 +1,25 @@
+@use "./variables";
+@use "./mixins";
+
+.new-content {
+  font-size: x-large;
+  font-weight: 600;
+}
+
+.content {
+  @include mixins.grid(300px);
+  padding: 50px 80px;
+  gap: 15px;
+
+  img {
+    max-width: 250px;
+  }
+
+  .content-title {
+    font-weight: 600;
+  }
+
+  .content-genre {
+    font-style: italic;
+  }
+}

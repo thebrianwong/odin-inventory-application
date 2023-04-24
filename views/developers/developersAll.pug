@@ -2,18 +2,21 @@ extends ../layout
 
 block content 
   h1= title
-  a(href="/store/developers/new") Add New Developer 
+  a(href="/store/developers/new")
+    button.new-content Add New Developer 
 
-  for developer in developerList
-    if (developer.imageURL)
-      a(href=developer.url)
-        button 
-          img(src=`/data/uploads/developers/${developer.imageURL}`, alt=`${developer.name} logo`)
-      p= developer.name
+  div.content
+    for developer in developerList
+      div.content-item
+        if (developer.imageURL)
+          a(href=developer.url)
+            button 
+              img(src=`/data/uploads/developers/${developer.imageURL}`, alt=`${developer.name} logo`)
+          p.content-title= developer.name
 
-    else
-      a(href=developer.url)
-        button= developer.name
+        else
+          a(href=developer.url)
+            button.content-title= developer.name
 
-    if (developer.founded)
-      p Founded in #{developer.founded} 
+        if (developer.founded)
+          p Founded in #{developer.founded} 

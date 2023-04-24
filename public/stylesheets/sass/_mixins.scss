@@ -4,3 +4,9 @@
   align-items: $align;
   flex-direction: $direction;
 }
+
+@mixin grid($minWidth) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($minWidth, 1fr));
+  align-items: baseline;
+}

@@ -2,17 +2,20 @@ extends ../layout
 
 block content
   h1= title
-  a(href="/store/consoles/new") Add New Console 
+  a(href="/store/consoles/new") 
+    button.new-content Add New Console 
 
-  for consoleDoc in consoleList
-    if (consoleDoc.imageURL)
-      a(href=consoleDoc.url)
-        button 
-          img(src=`/data/uploads/consoles/${consoleDoc.imageURL}`, alt=`Official promotional image of the ${consoleDoc.name}`)
-      p= consoleDoc.name
+  div.content
+    for consoleDoc in consoleList
+      div.content-item
+        if (consoleDoc.imageURL)
+          a(href=consoleDoc.url)
+            button 
+              img(src=`/data/uploads/consoles/${consoleDoc.imageURL}`, alt=`Official promotional image of the ${consoleDoc.name}`)
+          p.content-title= consoleDoc.name
 
-    else
-      a(href=consoleDoc.url)
-        button= consoleDoc.name
+        else
+          a(href=consoleDoc.url)
+            button.content-title= consoleDoc.name
 
-    p By #{consoleDoc.creator}
+        p By #{consoleDoc.creator}
