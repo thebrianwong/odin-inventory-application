@@ -1,10 +1,64 @@
 @import "./_normalize.css";
 
-// body {
-//   padding: 50px;
-//   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-// }
+$gamestopBlack: #000000;
+$gamestopRed: #fd0000;
+$gamestopWhite: white;
+$offwhite: rgb(226, 211, 211);
 
-// a {
-//   color: #00b7ff;
-// }
+@mixin flex($justify, $align, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+:root {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-align: center;
+  background-color: $offwhite;
+}
+
+button {
+  background-color: $gamestopRed;
+  color: $offwhite;
+  border: solid 2px $gamestopBlack;
+  border-radius: 2px;
+}
+
+nav {
+  @include flex(center, center);
+  gap: 10px;
+  padding: 10px;
+  background-color: $gamestopBlack;
+  box-shadow: 0 2px 12px lightgray;
+
+  .logo-odin {
+    color: $gamestopWhite;
+  }
+
+  .logo-stop {
+    color: $gamestopRed;
+  }
+
+  p {
+    padding: 10px;
+    font-size: xx-large;
+    font-weight: 600;
+  }
+  button {
+    border-color: $offwhite;
+  }
+}
+
+.container {
+  @include flex(center, center, column);
+  gap: 10px;
+
+  .category:first-of-type {
+    margin-top: 10px;
+  }
+
+  p {
+    margin: 10px;
+  }
+}

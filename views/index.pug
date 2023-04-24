@@ -1,23 +1,24 @@
 extends layout
 
 block content
-  h1= title
-  p Manage video game inventory for #{title}.
-  p Check inventory by game, developer, console, or genre. 
+  div.container
+    h1= title
+    p Manage video game inventory for #{title}.
+    p Check inventory by game, developer, console, or genre. 
 
-  div  
-    a(href="/store/videogames")
-      button Video Games
-    p Total: #{videoGameCount}
-  div 
-    a(href="/store/developers")
-      button Developers
-    p Total: #{developerCount}
-  div 
-    a(href="/store/consoles")
-      button Consoles
-    p Total: #{consoleCount}
-  div 
-    a(href="/store/genres")
-      button Genres
-    p Total: #{genreCount}
+    div.category
+      a(href="/store/videogames")
+        button Video Games
+      p Total: #{videoGameCount}
+    div.category 
+      a(href="/store/developers")
+        button Developers
+      p Total: #{developerCount}
+    div.category 
+      a(href="/store/consoles")
+        button Consoles
+      p Total: #{consoleCount}
+    div.category 
+      a(href="/store/genres")
+        button Genres
+      p Total: #{genreCount}
