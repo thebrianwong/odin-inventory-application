@@ -1,0 +1,21 @@
+@use "./mixins";
+
+.delete-content {
+  padding: 0 80px;
+
+  h1 {
+    margin-bottom: 35px;
+  }
+
+  .games-list {
+    @include mixins.flex(center, center, 15px);
+  }
+
+  form {
+    @include mixins.flex(center, center, 15px, column nowrap);
+  }
+
+  button {
+    margin-top: 25px;
+  }
+}
