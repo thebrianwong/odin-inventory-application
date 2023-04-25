@@ -9,6 +9,10 @@
 
   .games-list {
     @include mixins.flex(center, center, 15px);
+
+    button {
+      margin-top: 0;
+    }
   }
 
   form {

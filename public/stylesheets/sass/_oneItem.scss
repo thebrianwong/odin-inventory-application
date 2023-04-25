@@ -28,5 +28,6 @@
 
   .content-crud {
     @include mixins.flex(center, center, 25px);
+    margin-top: 50px;
   }
 }
