@@ -1,0 +1,32 @@
+@use "./mixins";
+
+.content-form {
+  @include mixins.flex(center, center, 25px, column nowrap);
+  padding: 0 80px 80px;
+
+  form {
+    @include mixins.flex(center, flex-end, 25px, column nowrap);
+    max-width: 600px;
+
+    fieldset.headquarters-form {
+      @include mixins.flex(center, flex-end, 25px, column nowrap);
+    }
+
+    fieldset.consoles-form,
+    fieldset.genres-form {
+      @include mixins.flex(center, center, 15px, row wrap);
+    }
+
+    input[type="checkbox"] {
+      margin-left: 5px;
+    }
+
+    label[for="file"] {
+      @include mixins.flex(center, baseline, 10px, column nowrap);
+    }
+
+    input[type="submit"] {
+      align-self: center;
+    }
+  }
+}
