@@ -12,7 +12,8 @@ block content
         h2= game.name 
 
         p Developed by 
-          a(href=game.developer.url)= game.developer.name
+          a(href=game.developer.url)
+            button= game.developer.name
 
         p Originally released on #{game.releaseDateDisplayFormatted}
 
@@ -26,7 +27,8 @@ block content
         if (game.console.length)
           div.content-list
             for console in game.console
-              a(href=console.url)= console.name 
+              a(href=console.url)
+                button= console.name 
 
         else 
           p None
@@ -35,7 +37,8 @@ block content
         if (game.genre.length)
           div.content-list
             for genre in game.genre 
-              a(href=genre.url)= genre.name 
+              a(href=genre.url)
+                button= genre.name 
             
         else 
           p None

@@ -8,7 +8,8 @@ block content
       p= `The following game(s) have the ${consoleDoc.name} as a console. Please delete them first.`
       div.games-list
         for game in videoGamesWithConsole
-          a(href=game.url)= game.name 
+          a(href=game.url)
+            button= game.name 
 
     if (!videoGamesWithConsole.length)
       p= `Are you sure you want to delete the ${consoleDoc.name} console?`
