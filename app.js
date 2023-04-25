@@ -5,12 +5,23 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const compression = require("compression");
+const helmet = require("helmet");
+const RateLimit = require("express-rate-limit");
 require("dotenv").config();
 
 const indexRouter = require("./routes/index");
 const storeRouter = require("./routes/store");
 
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 60,
+});
+
 const app = express();
+app.use(compression());
+app.use(helmet());
+app.use(limiter);
 
 mongoose.set("strictQuery", false);
 const mongoDB = process.env.MONGODB_URL;
