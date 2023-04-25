@@ -1,0 +1,41 @@
+@use "./variables";
+@use "./mixins";
+
+.single-content {
+  @include mixins.flex(center, center, column);
+  padding: 0 80px;
+  gap: 25px;
+
+  .content-info {
+    @include mixins.flex(center, center);
+
+    div {
+      padding-left: 25px;
+    }
+
+    .content-info-w-image {
+      text-align: right;
+
+      .content-list {
+        @include mixins.flex(flex-end, center);
+        flex-wrap: wrap;
+        gap: 25px;
+      }
+    }
+
+    .content-info-wo-image {
+      text-align: center;
+
+      .content-list {
+        @include mixins.flex(center, center);
+        flex-wrap: wrap;
+        gap: 25px;
+      }
+    }
+  }
+
+  .content-crud {
+    @include mixins.flex(center, center);
+    gap: 25px;
+  }
+}

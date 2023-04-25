@@ -1,31 +1,37 @@
 extends ../layout
 
 block content 
-  h1 Console ID #{title}
-  h2= consoleDoc.name
+  div.single-content
+    h1 Console ID #{title}
 
-  if (consoleDoc.releaseDate)
-    p Released in #{consoleDoc.releaseDateDisplayFormatted} by #{consoleDoc.creator}
+    div.content-info
+      if (consoleDoc.imageURL)
+        img(src=`/data/uploads/consoles/${consoleDoc.imageURL}`, alt=`Official promotional image of the ${consoleDoc.name}`)
 
-  else 
-    p By #{consoleDoc.creator}
+      div(class=(consoleDoc.imageURL ? "content-info-w-image" : "content-info-wo-image"))
+        h2= consoleDoc.name
 
-  p= consoleDoc.description 
+        if (consoleDoc.releaseDate)
+          p Released in #{consoleDoc.releaseDateDisplayFormatted} by #{consoleDoc.creator}
 
-  if (consoleGames.length)
-    p Games Available on the #{consoleDoc.name}:
-    for game in consoleGames 
-      a(href=game.url)
-        button= game.name
+        else 
+          p By #{consoleDoc.creator}
 
-  if (consoleDoc.imageURL)
-    img(src=`/data/uploads/consoles/${consoleDoc.imageURL}`, alt=`Official promotional image of the ${consoleDoc.name}`)
+        p= consoleDoc.description 
 
-  a(href=`/store/videogames/new?console=${consoleDoc._id}`)
-    button Add New Game Available on the #{consoleDoc.name}
+        if (consoleGames.length)
+          p Games Available on the #{consoleDoc.name}:
+          div.content-list
+            for game in consoleGames 
+              a(href=game.url)
+                button= game.name
 
-  a(href=`/store/consoles/${consoleDoc._id}/update`)
-    button Update Console 
+    div.content-crud
+      a(href=`/store/videogames/new?console=${consoleDoc._id}`)
+        button Add New Game Available on the #{consoleDoc.name}
 
-  a(href=`/store/consoles/${consoleDoc._id}/delete`)
-    button Delete Console 
+      a(href=`/store/consoles/${consoleDoc._id}/update`)
+        button Update Console 
+
+      a(href=`/store/consoles/${consoleDoc._id}/delete`)
+        button Delete Console 

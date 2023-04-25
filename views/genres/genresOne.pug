@@ -1,26 +1,31 @@
 extends ../layout
 
 block content 
-  h1 Genre ID #{title}
-  
-  h2= genre.name 
+  div.single-content
+    h1 Genre ID #{title}
+    
+    div.content-info
+      if (genre.imageURL)
+        img(src=`/data/uploads/genres/${genre.imageURL}`, alt=`Visual depiction of the ${genre.name} genre`)
 
-  p= genre.description 
+      div(class=(genre.imageURL ? "content-info-w-image" : "content-info-wo-image"))
+        h2= genre.name 
 
-  if (genreGames.length)
-    p #{genre.name} Games:
-    for game in genreGames 
-      a(href=game.url)
-        button= game.name 
+        p= genre.description 
 
-  if (genre.imageURL)
-    img(src=`/data/uploads/genres/${genre.imageURL}`, alt=`Visual depiction of the ${genre.name} genre`)
+        if (genreGames.length)
+          p #{genre.name} Games:
+          div.content-list
+            for game in genreGames 
+              a(href=game.url)
+                button= game.name 
 
-  a(href=`/store/videogames/new?genre=${genre._id}`)
-    button Add New #{genre.name} Game
+    div.content-crud
+      a(href=`/store/videogames/new?genre=${genre._id}`)
+        button Add New #{genre.name} Game
 
-  a(href=`/store/genres/${genre._id}/update`)
-    button Update Genre 
+      a(href=`/store/genres/${genre._id}/update`)
+        button Update Genre 
 
-  a(href=`/store/genres/${genre._id}/delete`)
-    button Delete Genre 
+      a(href=`/store/genres/${genre._id}/delete`)
+        button Delete Genre 

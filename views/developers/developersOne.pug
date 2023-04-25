@@ -1,32 +1,37 @@
 extends ../layout
 
 block content 
-  h1 Developer ID #{title} 
+  div.single-content
+    h1 Developer ID #{title} 
 
-  h2=developer.name 
+    div.content-info
+      if (developer.imageURL)
+        img(src=`/data/uploads/developers/${developer.imageURL}`, alt=`${developer.name} logo`)
 
-  if (developer.founded !== undefined)
-    p Founded in #{developer.founded}
+      div(class=(developer.imageURL ? "content-info-w-image" : "content-info-wo-image")) 
+        h2=developer.name 
 
-  if (developer.headquarters)
-    p Headquartered in #{developer.headquartersFormatted}
+        if (developer.founded !== undefined)
+          p Founded in #{developer.founded}
 
-  p=developer.description
+        if (developer.headquarters)
+          p Headquartered in #{developer.headquartersFormatted}
 
-  if (developer.imageURL)
-    img(src=`/data/uploads/developers/${developer.imageURL}`, alt=`${developer.name} logo`)
+        p=developer.description
 
-  if (developerGames.length)
-    p Games Developed by #{developer.name}:
-    for game in developerGames 
-      a(href=game.url) 
-        button=game.name
+        if (developerGames.length)
+          p Games Developed by #{developer.name}:
+          div.content-list
+            for game in developerGames 
+              a(href=game.url) 
+                button=game.name
 
-  a(href=`/store/videogames/new?developer=${developer._id}`)
-    button Add New Game Developed by #{developer.name}
+    div.content-crud
+      a(href=`/store/videogames/new?developer=${developer._id}`)
+        button Add New Game Developed by #{developer.name}
 
-  a(href=`/store/developers/${developer._id}/update`)
-    button Update Developer 
+      a(href=`/store/developers/${developer._id}/update`)
+        button Update Developer 
 
-  a(href=`/store/developers/${developer._id}/delete`)
-    button Delete Developer 
+      a(href=`/store/developers/${developer._id}/delete`)
+        button Delete Developer 

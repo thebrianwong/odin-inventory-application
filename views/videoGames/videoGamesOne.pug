@@ -1,42 +1,48 @@
 extends ../layout
 
 block content 
-  h1= title
+  div.single-content
+    h1= title
 
-  h2= game.name 
+    div.content-info
+      if (game.imageURL)
+        img(src=`/data/uploads/videoGames/${game.imageURL}`, alt=`Official box art ${game.name}`)
 
-  p Developed by 
-    a(href=game.developer.url)= game.developer.name
+      div(class=(game.imageURL ? "content-info-w-image" : "content-info-wo-image"))
+        h2= game.name 
 
-  if (game.imageURL)
-    img(src=`/data/uploads/videoGames/${game.imageURL}`, alt=`Official box art ${game.name}`)
+        p Developed by 
+          a(href=game.developer.url)= game.developer.name
 
-  p Originally released on #{game.releaseDateDisplayFormatted}
+        p Originally released on #{game.releaseDateDisplayFormatted}
 
-  p= game.price !== undefined ? `Price: ${game.priceFormatted}` : "Price Unavailable"
+        p= game.price !== undefined ? `Price: ${game.priceFormatted}` : "Price Unavailable"
 
-  p= game.copies !== undefined ? `Copies in stock: ${game.copies}` : "Number of Copies Unavailable"
+        p= game.copies !== undefined ? `Copies in stock: ${game.copies}` : "Number of Copies Unavailable"
 
-  p= game.description
+        p= game.description
 
-  p Available on:
-  if (game.console.length)
-    for console in game.console
-      a(href=console.url)= console.name 
+        p Available on:
+        if (game.console.length)
+          div.content-list
+            for console in game.console
+              a(href=console.url)= console.name 
 
-  else 
-    p None
+        else 
+          p None
 
-  p Genres:
-  if (game.genre.length)
-    for genre in game.genre 
-      a(href=genre.url)= genre.name 
-      
-  else 
-    p None
-
-  a(href=`/store/videogames/${game._id}/update`)
-    button Update Video Game 
+        p Genres:
+        if (game.genre.length)
+          div.content-list
+            for genre in game.genre 
+              a(href=genre.url)= genre.name 
+            
+        else 
+          p None
     
-  a(href=`/store/videogames/${game._id}/delete`)
-    button Delete Video Game 
+    div.content-crud
+      a(href=`/store/videogames/${game._id}/update`)
+        button Update Video Game 
+        
+      a(href=`/store/videogames/${game._id}/delete`)
+        button Delete Video Game 
