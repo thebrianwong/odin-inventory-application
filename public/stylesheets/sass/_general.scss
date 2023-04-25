@@ -6,7 +6,8 @@
   background-color: variables.$offwhite;
 }
 
-button {
+button,
+input[type="submit"] {
   background-color: variables.$gamestopRed;
   color: variables.$offwhite;
   border: solid 2px variables.$gamestopBlack;
