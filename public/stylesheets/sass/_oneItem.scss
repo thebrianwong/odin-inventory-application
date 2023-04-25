@@ -2,12 +2,11 @@
 @use "./mixins";
 
 .single-content {
-  @include mixins.flex(center, center, column);
+  @include mixins.flex(center, center, 25px, column nowrap);
   padding: 0 80px;
-  gap: 25px;
 
   .content-info {
-    @include mixins.flex(center, center);
+    @include mixins.flex(center, center, 0, row nowrap);
 
     div {
       padding-left: 25px;
@@ -17,9 +16,7 @@
       text-align: right;
 
       .content-list {
-        @include mixins.flex(flex-end, center);
-        flex-wrap: wrap;
-        gap: 25px;
+        @include mixins.flex(flex-end, center, 25px, row wrap);
       }
     }
 
@@ -27,15 +24,12 @@
       text-align: center;
 
       .content-list {
-        @include mixins.flex(center, center);
-        flex-wrap: wrap;
-        gap: 25px;
+        @include mixins.flex(center, center, 25px, row wrap);
       }
     }
   }
 
   .content-crud {
-    @include mixins.flex(center, center);
-    gap: 25px;
+    @include mixins.flex(center, center, 25px);
   }
 }

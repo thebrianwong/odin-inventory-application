@@ -1,8 +1,7 @@
 @use "./mixins";
 
 .container {
-  @include mixins.flex(center, center, column);
-  gap: 10px;
+  @include mixins.flex(center, center, 10px, column wrap);
 
   .category:first-of-type {
     margin-top: 10px;

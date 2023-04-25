@@ -1,8 +1,9 @@
-@mixin flex($justify, $align, $direction: row) {
+@mixin flex($justify, $align, $gap: 0px, $flow: row wrap) {
   display: flex;
   justify-content: $justify;
   align-items: $align;
-  flex-direction: $direction;
+  gap: $gap;
+  flex-flow: $flow;
 }
 
 @mixin grid($minWidth) {

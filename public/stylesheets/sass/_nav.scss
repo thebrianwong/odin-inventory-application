@@ -2,8 +2,7 @@
 @use "./mixins";
 
 nav {
-  @include mixins.flex(center, center);
-  gap: 10px;
+  @include mixins.flex(center, center, 10px);
   padding: 10px;
   background-color: variables.$gamestopBlack;
   box-shadow: 0 2px 12px lightgray;
