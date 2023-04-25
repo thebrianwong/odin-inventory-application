@@ -7,6 +7,9 @@
 
   .content-info {
     @include mixins.flex(center, center, 0, row nowrap);
+    width: 100%;
+    padding-bottom: 50px;
+    border-bottom: solid 2px darkgray;
 
     .content-info-w-image {
       text-align: right;
@@ -27,7 +30,7 @@
   }
 
   .content-crud {
-    @include mixins.flex(center, center, 25px);
+    @include mixins.flex(center, center, 25px, column nowrap);
     margin-top: 50px;
   }
 }
