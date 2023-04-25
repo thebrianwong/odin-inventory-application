@@ -3,7 +3,7 @@
 
 .single-content {
   @include mixins.flex(center, center, 25px, column nowrap);
-  padding: 0 80px;
+  padding: 0 80px 80px;
 
   .content-info {
     @include mixins.flex(center, center, 0, row nowrap);
