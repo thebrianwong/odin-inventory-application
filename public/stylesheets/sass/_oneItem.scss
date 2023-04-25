@@ -8,12 +8,9 @@
   .content-info {
     @include mixins.flex(center, center, 0, row nowrap);
 
-    div {
-      padding-left: 25px;
-    }
-
     .content-info-w-image {
       text-align: right;
+      padding-left: 25px;
 
       .content-list {
         @include mixins.flex(flex-end, center, 25px, row wrap);
