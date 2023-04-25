@@ -10,7 +10,7 @@ block content
       div.content-item
         if (developer.imageURL)
           a(href=developer.url)
-            button 
+            button.img-btn
               img(src=`/data/uploads/developers/${developer.imageURL}`, alt=`${developer.name} logo`)
           p.content-title= developer.name
 

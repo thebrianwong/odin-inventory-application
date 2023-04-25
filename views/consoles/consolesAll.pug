@@ -10,7 +10,7 @@ block content
       div.content-item
         if (consoleDoc.imageURL)
           a(href=consoleDoc.url)
-            button 
+            button.img-btn
               img(src=`/data/uploads/consoles/${consoleDoc.imageURL}`, alt=`Official promotional image of the ${consoleDoc.name}`)
           p.content-title= consoleDoc.name
 

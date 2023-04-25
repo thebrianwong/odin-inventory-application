@@ -10,7 +10,7 @@ block content
       div.content-item
         if (game.imageURL)
           a(href=game.url)
-            button 
+            button.img-btn
               img(src=`/data/uploads/videoGames/${game.imageURL}`, alt=`Official box art ${game.name}`)
           p.content-title= game.name
 
