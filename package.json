@@ -6,7 +6,7 @@
     "start": "node ./bin/www & npm run sass-prod",
     "dev": "nodemon ./bin/www & npm run sass-build",
     "server": "DEBUG=odin-inventory-application:* npm start",
-    "sass-prod": "sass public/stylesheets/style.scss public/stylesheets/style.css",
+    "sass-prod": "sass ./public/stylesheets/style.scss ./public/stylesheets/style.css",
     "sass-build": "sass --watch public/stylesheets/style.scss public/stylesheets/style.css"
   },
   "dependencies": {
